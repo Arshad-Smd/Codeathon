@@ -7,9 +7,15 @@ export const metadata: Metadata = {
   title: 'Codeathon',
   description: 'A premier hackathon for innovators and developers. Innovate, Collaborate, and Launch Your Ideas.',
   icons: {
-    icon: '/icon1.png',
+    icon: [
+      {
+        url: '/icon1.png',
+        sizes: '64x64',
+      },
+    ],
   },
 };
+
 
 export default function RootLayout({
   children,
