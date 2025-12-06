@@ -6,6 +6,9 @@ import { cn } from '@/lib/utils';
 export const metadata: Metadata = {
   title: 'Codeathon',
   description: 'A premier hackathon for innovators and developers. Innovate, Collaborate, and Launch Your Ideas.',
+  icons: {
+    icon: '/icon1.png',
+  },
 };
 
 export default function RootLayout({
