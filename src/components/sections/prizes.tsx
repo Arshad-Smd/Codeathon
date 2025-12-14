@@ -61,7 +61,7 @@ export function PrizesSection() {
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center space-y-4 animate-in fade-in zoom-in-90 duration-500 w-full">
-             <div className="space-y-2">
+             <div className="space-y-2 text-center">
                 <h2 className="font-headline text-3xl font-bold tracking-tighter text-accent sm:text-5xl">You found it!</h2>
                 <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
                   Compete for a chance to win from our massive prize pool. The top teams will be rewarded for their innovation and hard work.
@@ -85,3 +85,4 @@ export function PrizesSection() {
     </section>
   );
 }
+
