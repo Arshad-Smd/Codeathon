@@ -4,11 +4,11 @@ import { ResponsiveBrickFloor } from "../ui/responsive-brick-floor";
 import Link from "next/link";
 
 const goldSponsors = [
-  { name: "Isaii AI", path: "/isaii AI - premium.jpg", url: "https://www.isaii.in/" },
   { name: "Orchestro AI", path: "/orchestro AI - premium.jpg", url: "https://www.orchestro.ai/" },
 ];
 
 const silverSponsors = [
+  { name: "Isaii AI", path: "/isaii AI - premium.jpg", url: "https://www.isaii.in/" },
   { name: "Art of Problem Solving", path: "/Art of problem solving-goodies.jpg", url: "https://artofproblemsolving.com/" },
   { name: "Eventopia", path: "/eventopia-goodies.jpg", url: "https://eventopia.in/" },
   { name: "Interview Buddy", path: "/interviewbuddy-goodies.jpg", url: "https://interviewbuddy.net/" },
@@ -50,7 +50,7 @@ export function SponsorsSection() {
           <h3 className="mb-8 text-center font-headline text-2xl font-semibold text-accent/80 sm:text-3xl">
           Core Sponsors
           </h3>
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-2">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-1 lg:grid-cols-1 max-w-md mx-auto">
             {goldSponsors.map((sponsor) => (
               <SponsorLogo key={sponsor.name} {...sponsor} />
             ))}
