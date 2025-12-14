@@ -43,7 +43,7 @@ export default function Home() {
       <Header />
       <ThreeScene />
       <ThreeSceneBackground />
-      <main className="flex-1">
+      <main className="flex-1 relative z-10">
         <HeroSection />
         <AboutSection />
         <TimelineSection />
