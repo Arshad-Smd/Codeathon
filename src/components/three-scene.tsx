@@ -9,14 +9,15 @@ interface ScenePathNode {
   sectionId: string;
   walkDirection: 'left' | 'right';
   isTimeline?: boolean;
+  hasDynamicContent?: boolean;
 }
 
 const scenePath: ScenePathNode[] = [
   { sectionId: 'hero', walkDirection: 'right' },
   { sectionId: 'about', walkDirection: 'left' },
   { sectionId: 'timeline', walkDirection: 'right', isTimeline: true },
-  { sectionId: 'prizes', walkDirection: 'left' },
-  { sectionId: 'challenges', walkDirection: 'right' },
+  { sectionId: 'prizes', walkDirection: 'left', hasDynamicContent: true },
+  { sectionId: 'challenges', walkDirection: 'right', hasDynamicContent: true },
   { sectionId: 'sponsors', walkDirection: 'left'},
   { sectionId: 'contact', walkDirection: 'right' },
 ];
@@ -65,6 +66,35 @@ export function ThreeScene() {
     vec.sub(state.camera.position).normalize();
     const distance = -state.camera.position.z / vec.z;
     return state.camera.position.clone().add(vec.multiplyScalar(distance));
+  }
+
+  const updateMarioAndBlockPositions = () => {
+    const activeNode = scenePath[state.currentSectionIndex];
+    if (!activeNode) return;
+    const element = state.elements.get(activeNode.sectionId);
+    if (!element) return;
+    const rect = element.getBoundingClientRect();
+
+    const marioFeetOffset = 0.22;
+    let wallY;
+    if (activeNode.isTimeline && state.timelineBricks.length > 0) {
+        const firstBrick = state.timelineBricks[0];
+        const blockRect = firstBrick.getBoundingClientRect();
+        wallY = screenToWorld(window.innerWidth / 2, blockRect.top).y + marioFeetOffset;
+    } else if (activeNode.sectionId === 'contact') {
+        const wallTopY = rect.bottom - 64;
+        wallY = screenToWorld(window.innerWidth / 2, wallTopY).y + marioFeetOffset;
+    } else {
+        const wallTopY = rect.bottom - 64;
+        wallY = screenToWorld(window.innerWidth / 2, wallTopY).y + marioFeetOffset;
+    }
+
+    if (activeNode.hasDynamicContent) {
+        state.currentWallY = wallY;
+    } else {
+        state.currentTarget.y = wallY;
+        state.currentWallY = wallY;
+    }
   }
 
   useEffect(() => {
@@ -212,21 +242,8 @@ export function ThreeScene() {
             targetX = startX;
         }
 
-        const marioFeetOffset = 0.22;
-        let wallY;
-        if (activeNode.isTimeline && state.timelineBricks.length > 0) {
-            const firstBrick = state.timelineBricks[0];
-            const blockRect = firstBrick.getBoundingClientRect();
-            wallY = screenToWorld(window.innerWidth / 2, blockRect.top).y + marioFeetOffset;
-        } else if (activeNode.sectionId === 'contact') {
-            wallY = -100;
-        } else {
-            const wallTopY = rect.bottom - 64;
-            wallY = screenToWorld(window.innerWidth / 2, wallTopY).y + marioFeetOffset;
-        }
-
-        state.currentWallY = wallY;
-        state.currentTarget.set(targetX, wallY, 0);
+        state.currentTarget.x = targetX;
+        updateMarioAndBlockPositions();
     };
     
     const handleKeyUp = (event: KeyboardEvent) => {
@@ -252,12 +269,22 @@ export function ThreeScene() {
       const delta = clock.getDelta();
 
       if (state.mixer) state.mixer.update(delta);
+      
+      const activeNode = scenePath[state.currentSectionIndex];
+      const needsGravity = activeNode?.hasDynamicContent;
+
+      // This logic runs on every frame now for dynamic sections.
+      if (needsGravity) {
+          updateMarioAndBlockPositions();
+      }
 
       if (state.mario) {
         state.mario.position.x += (state.currentTarget.x - state.mario.position.x) * 0.05;
         state.mario.rotation.y += (state.targetRotationY - state.mario.rotation.y) * 0.08;
 
-        if (state.isJumping || state.isFalling) {
+        const isActivelyFalling = state.isJumping || state.isFalling || (needsGravity && state.mario.position.y > state.currentWallY);
+
+        if (isActivelyFalling) {
             state.velocityY -= 0.015; // Gravity
             state.mario.position.y += state.velocityY;
 
@@ -330,7 +357,9 @@ export function ThreeScene() {
       }
       state.renderer?.dispose();
     };
-  }, [state, screenToWorld]);
+  }, [state, screenToWorld, updateMarioAndBlockPositions]);
 
   return <div ref={mountRef} className="fixed top-0 left-0 w-full h-full z-30 pointer-events-none" />;
 }
+
+    
