@@ -13,7 +13,10 @@ export function PrizesSection() {
 
   useEffect(() => {
     // If it's already revealed on mobile, no need to add listener
-    if (isMobile) return;
+    if (isMobile) {
+      setIsRevealed(true);
+      return;
+    };
 
     const handlePrizeReveal = () => {
       setIsRevealed(true);
@@ -60,12 +63,12 @@ export function PrizesSection() {
                   Compete for a chance to win from our massive prize pool. The top teams will be rewarded for their innovation and hard work.
                 </p>
             </div>
-            <div className="relative bg-mario-brown p-8 border-t-4 border-l-4 border-r-4 border-b-8 border-black/70 shadow-[inset_4px_4px_0px_0px_rgba(255,255,255,0.3),inset_-4px_0px_0px_0px_rgba(0,0,0,0.25)] text-center w-full max-w-lg transition-transform duration-200 hover:-translate-y-2 flex flex-col items-center justify-center">
-              <TrophyIcon className="h-24 w-24 text-yellow-400 animate-spin-y" />
-              <p className="font-headline text-xl font-semibold leading-none tracking-tight text-yellow-300 mt-4">
+            <div className="relative bg-mario-brown p-4 md:p-8 border-t-4 border-l-4 border-r-4 border-b-8 border-black/70 shadow-[inset_4px_4px_0px_0px_rgba(255,255,255,0.3),inset_-4px_0px_0px_0px_rgba(0,0,0,0.25)] text-center w-full max-w-lg transition-transform duration-200 hover:-translate-y-2 flex flex-col items-center justify-center">
+              <TrophyIcon className="h-16 w-16 md:h-24 md:w-24 text-yellow-400 animate-spin-y" />
+              <p className="font-headline text-base md:text-xl font-semibold leading-none tracking-tight text-yellow-300/80 mt-4">
                 Overall Prize Pool
               </p>
-              <p className="font-headline text-5xl font-bold text-white mt-2 drop-shadow-lg">
+              <p className="font-headline text-4xl md:text-6xl font-bold text-white mt-2 drop-shadow-lg">
                 ₹1,00,000
               </p>
             </div>
