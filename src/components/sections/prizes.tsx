@@ -20,7 +20,7 @@ const prizes = [
 
 export function PrizesSection() {
   return (
-    <section id="prizes" className="relative w-full bg-card py-12 md:py-24 lg:py-32">
+    <section id="prizes" className="relative w-full bg-transparent py-12 md:py-24 lg:py-32 z-10">
       <div className="container px-4 md:px-6 pb-24">
         <div className="flex flex-col items-center justify-center space-y-4 text-center">
           <div className="space-y-2">

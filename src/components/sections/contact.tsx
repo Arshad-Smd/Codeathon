@@ -44,7 +44,7 @@ const ContactCard = ({ name, phone, linkedin }: { name: string, phone: string, l
 
 export function ContactSection() {
   return (
-    <section id="contact" className="w-full bg-card py-12 md:py-24 lg:py-32">
+    <section id="contact" className="w-full bg-transparent py-12 md:py-24 lg:py-32 relative z-10">
       <div className="container px-4 md:px-6">
         <div className="space-y-3 text-center mb-12">
           <h2 className="font-headline text-3xl font-bold tracking-tighter text-accent md:text-4xl/tight">

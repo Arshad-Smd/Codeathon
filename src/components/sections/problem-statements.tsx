@@ -1,3 +1,4 @@
+
 import {
   Accordion,
   AccordionContent,
@@ -49,7 +50,7 @@ const themes = [
 
 export function ProblemStatementsSection() {
   return (
-    <section id="challenges" className="relative w-full bg-card py-12 md:py-24 lg:py-32">
+    <section id="challenges" className="relative w-full bg-transparent py-12 md:py-24 lg:py-32 z-10">
       <div className="container px-4 md:px-6 pb-24">
         <div className="mb-12 flex flex-col items-center justify-center space-y-4 text-center">
           <h2 className="font-headline text-3xl font-bold tracking-tighter text-accent sm:text-4xl md:text-5xl">Challenge Themes</h2>
