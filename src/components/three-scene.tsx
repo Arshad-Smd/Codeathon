@@ -57,6 +57,15 @@ export function ThreeScene() {
     isPrizeRevealed: false,
   }), []);
 
+  const screenToWorld = (x: number, y: number): drei.Vector3 => {
+    if (!state.renderer) return new drei.Vector3();
+    const vec = new drei.Vector3( (x / window.innerWidth) * 2 - 1, -(y / window.innerHeight) * 2 + 1, 0.5 );
+    vec.unproject(state.camera);
+    vec.sub(state.camera.position).normalize();
+    const distance = -state.camera.position.z / vec.z;
+    return state.camera.position.clone().add(vec.multiplyScalar(distance));
+  }
+
   useEffect(() => {
     const currentMount = mountRef.current;
     if (!currentMount) return;
@@ -113,24 +122,12 @@ export function ThreeScene() {
         setTimeout(() => handleScroll(), 100);
     });
 
-    const screenToWorld = (x: number, y: number): drei.Vector3 => {
-        const vec = new drei.Vector3( (x / window.innerWidth) * 2 - 1, -(y / window.innerHeight) * 2 + 1, 0.5 );
-        vec.unproject(state.camera);
-        vec.sub(state.camera.position).normalize();
-        const distance = -state.camera.position.z / vec.z;
-        return state.camera.position.clone().add(vec.multiplyScalar(distance));
-    }
-
     // Load Question Block Model
     loader.load('/question_block.glb', (gltf) => {
         state.questionBlock = gltf.scene;
         state.questionBlock.scale.set(0.5, 0.5, 0.5);
-        state.questionBlock.position.set(0, 0, -1); // Initially offscreen
-        state.questionBlock.visible = false;
+        state.questionBlock.position.set(0, 10, 0); // Start offscreen vertically
         state.scene.add(state.questionBlock);
-        
-        // Immediately try to position the block
-        handleScroll();
     });
 
     const switchAction = (newActionName: 'walk' | 'idle' | 'jump') => {
@@ -228,21 +225,6 @@ export function ThreeScene() {
 
         state.currentWallY = wallY;
         state.currentTarget.set(targetX, wallY, 0);
-
-        // Position question block in prize section
-        if (activeNode.sectionId === 'prizes' && state.questionBlock) {
-            if (!state.isPrizeRevealed) {
-                const prizeSection = state.elements.get('prizes');
-                if (prizeSection) {
-                    const prizeRect = prizeSection.getBoundingClientRect();
-                    const worldPos = screenToWorld(prizeRect.left + prizeRect.width / 2, prizeRect.top + prizeRect.height / 3);
-                    state.questionBlock.position.set(worldPos.x, worldPos.y, 0);
-                    state.questionBlock.visible = true;
-                }
-            }
-        } else if (state.questionBlock) {
-            state.questionBlock.visible = false;
-        }
     };
     
     const handleKeyUp = (event: KeyboardEvent) => {
@@ -301,6 +283,20 @@ export function ThreeScene() {
       }
 
       if (state.questionBlock) {
+          const activeNode = scenePath[state.currentSectionIndex];
+          if (activeNode && activeNode.sectionId === 'prizes' && !state.isPrizeRevealed) {
+              const prizeSection = state.elements.get('prizes');
+              if (prizeSection) {
+                  const prizeRect = prizeSection.getBoundingClientRect();
+                  const worldPos = screenToWorld(prizeRect.left + prizeRect.width / 2, prizeRect.top + prizeRect.height / 3);
+                  state.questionBlock.position.set(worldPos.x, worldPos.y, 0);
+                  state.questionBlock.visible = true;
+              } else {
+                  state.questionBlock.visible = false;
+              }
+          } else {
+              state.questionBlock.visible = false;
+          }
           state.questionBlock.rotation.y += 0.01;
       }
       
@@ -329,7 +325,7 @@ export function ThreeScene() {
       }
       state.renderer?.dispose();
     };
-  }, [state]);
+  }, [state, screenToWorld]);
 
   return <div ref={mountRef} className="fixed top-0 left-0 w-full h-full z-30 pointer-events-none" />;
 }
