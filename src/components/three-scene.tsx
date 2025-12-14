@@ -9,15 +9,14 @@ interface ScenePathNode {
   sectionId: string;
   walkDirection: 'left' | 'right';
   isTimeline?: boolean;
-  hasDynamicContent?: boolean;
 }
 
 const scenePath: ScenePathNode[] = [
   { sectionId: 'hero', walkDirection: 'right' },
   { sectionId: 'about', walkDirection: 'left' },
   { sectionId: 'timeline', walkDirection: 'right', isTimeline: true },
-  { sectionId: 'prizes', walkDirection: 'left', hasDynamicContent: true },
-  { sectionId: 'challenges', walkDirection: 'right', hasDynamicContent: true },
+  { sectionId: 'prizes', walkDirection: 'left' },
+  { sectionId: 'challenges', walkDirection: 'right' },
   { sectionId: 'sponsors', walkDirection: 'left'},
 ];
 
@@ -88,12 +87,8 @@ export function ThreeScene() {
         wallY = screenToWorld(window.innerWidth / 2, wallTopY).y + marioFeetOffset;
     }
 
-    if (activeNode.hasDynamicContent) {
-        state.currentWallY = wallY;
-    } else {
-        state.currentTarget.y = wallY;
-        state.currentWallY = wallY;
-    }
+    state.currentTarget.y = wallY;
+    state.currentWallY = wallY;
   }
 
   useEffect(() => {
@@ -281,23 +276,17 @@ export function ThreeScene() {
 
       if (state.mixer) state.mixer.update(delta);
       
-      const activeNode = scenePath[state.currentSectionIndex];
-      const needsGravity = activeNode?.hasDynamicContent;
-
-      // This logic runs on every frame now for dynamic sections.
-      if (needsGravity) {
-          updateMarioAndBlockPositions();
-      }
+      updateMarioAndBlockPositions();
 
       if (state.mario) {
-        const atEndOfSponsors = activeNode.sectionId === 'sponsors' && Math.abs(state.mario.position.x - state.currentTarget.x) < 0.1;
+        const atEndOfSponsors = state.currentSectionIndex === scenePath.length - 1 && Math.abs(state.mario.position.x - state.currentTarget.x) < 0.1;
         if (!atEndOfSponsors || state.lastAction === 'walk') {
-            state.mario.position.x += (state.currentTarget.x - state.mario.position.x) * 0.06;
+            state.mario.position.x += (state.currentTarget.x - state.mario.position.x) * 0.1;
         }
 
-        state.mario.rotation.y += (state.targetRotationY - state.mario.rotation.y) * 0.08;
+        state.mario.rotation.y += (state.targetRotationY - state.mario.rotation.y) * 0.1;
 
-        const isActivelyFalling = state.isJumping || state.isFalling || (needsGravity && state.mario.position.y > state.currentWallY);
+        const isActivelyFalling = state.isJumping || state.isFalling;
 
         if (isActivelyFalling) {
             state.velocityY -= 0.015; // Gravity
@@ -380,3 +369,4 @@ export function ThreeScene() {
     
 
     
+
