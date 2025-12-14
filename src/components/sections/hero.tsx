@@ -6,7 +6,7 @@ import { ResponsiveBrickFloor } from '../ui/responsive-brick-floor';
 
 export function HeroSection() {
   return (
-    <section id="hero" className="relative flex h-screen w-full flex-col items-center justify-center text-center">
+    <section id="hero" className="relative z-10 flex h-screen w-full flex-col items-center justify-center text-center">
       <div className="container z-10 px-4 sm:px-6">
         <h1 className="font-headline text-2xl font-bold tracking-tighter text-primary-foreground drop-shadow-lg xxs:text-3xl sm:text-4xl md:text-6xl lg:text-7xl/none">
           Codeathon 2.0
