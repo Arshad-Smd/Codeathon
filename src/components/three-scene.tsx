@@ -99,6 +99,20 @@ export function ThreeScene() {
     state.currentWallY = wallY;
   }
 
+  const triggerJump = () => {
+    if (!state.isJumping && !state.isFalling) {
+        state.isJumping = true;
+        state.velocityY = 0.25; 
+        switchAction('jump');
+        state.actions.jump?.getMixer().addEventListener('finished', onJumpFinished);
+    }
+  }
+
+  const onJumpFinished = () => {
+    state.actions.jump?.getMixer().removeEventListener('finished', onJumpFinished);
+    switchAction('idle');
+  }
+
   useEffect(() => {
     const currentMount = mountRef.current;
     if (!currentMount) return;
@@ -239,22 +253,15 @@ export function ThreeScene() {
     };
     
     const handleKeyDown = (event: KeyboardEvent) => {
-        if (event.code === 'ArrowUp' && !state.isJumping && !state.isFalling) {
+        if (event.code === 'ArrowUp') {
             event.preventDefault();
-            state.isJumping = true;
-            state.velocityY = 0.25; 
-            switchAction('jump');
-            state.actions.jump?.getMixer().addEventListener('finished', onJumpFinished);
+            triggerJump();
         }
     };
 
-    const onJumpFinished = () => {
-        state.actions.jump?.getMixer().removeEventListener('finished', onJumpFinished);
-        switchAction('idle');
-    }
-
     window.addEventListener('scroll', handleScroll, { passive: true });
     window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('mario-jump', triggerJump);
 
     const clock = new drei.Clock();
     const animate = () => {
@@ -322,7 +329,6 @@ export function ThreeScene() {
                   state.questionBlock.position.x = worldPos.x;
                   state.questionBlock.position.y = worldPos.y;
                   state.questionBlock.position.z = 0;
-                  state.questionBlock.visible = true;
                   state.questionBlock.rotation.y += 0.01;
               } else {
                   state.questionBlock.visible = false;
@@ -350,6 +356,7 @@ export function ThreeScene() {
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('mario-jump', triggerJump);
       if (animationFrameId.current) cancelAnimationFrame(animationFrameId.current);
       if (currentMount && state.renderer?.domElement.parentNode === currentMount) {
         currentMount.removeChild(state.renderer.domElement);
