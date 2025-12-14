@@ -262,10 +262,11 @@ export function ThreeScene() {
             state.mario.position.y += state.velocityY;
 
             // Collision with question block
-            if (state.questionBlock && state.questionBlock.visible && !state.isPrizeRevealed) {
-                const marioBox = new drei.Box3().setFromObject(state.mario);
-                const blockBox = new drei.Box3().setFromObject(state.questionBlock);
-                if (marioBox.intersectsBox(blockBox) && state.velocityY > 0) {
+            if (state.questionBlock && state.questionBlock.visible && !state.isPrizeRevealed && state.mario) {
+                const distanceX = Math.abs(state.mario.position.x - state.questionBlock.position.x);
+                const distanceY = Math.abs(state.mario.position.y - state.questionBlock.position.y);
+
+                if (distanceX < 0.5 && distanceY < 0.5 && state.velocityY > 0) {
                      state.isPrizeRevealed = true;
                      window.dispatchEvent(new CustomEvent("prize-reveal"));
                 }
