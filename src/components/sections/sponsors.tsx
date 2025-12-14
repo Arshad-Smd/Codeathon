@@ -1,23 +1,24 @@
 
 import Image from "next/image";
 import { ResponsiveBrickFloor } from "../ui/responsive-brick-floor";
+import Link from "next/link";
 
 const goldSponsors = [
-  { name: "Isaii AI", path: "/isaii AI - premium.jpg" },
-  { name: "Orchestro AI", path: "/orchestro AI - premium.jpg" },
+  { name: "Isaii AI", path: "/isaii AI - premium.jpg", url: "https://www.isaii.in/" },
+  { name: "Orchestro AI", path: "/orchestro AI - premium.jpg", url: "https://www.orchestro.ai/" },
 ];
 
 const silverSponsors = [
-  { name: "Art of Problem Solving", path: "/Art of problem solving-goodies.jpg" },
-  { name: "Eventopia", path: "/eventopia-goodies.jpg" },
-  { name: "Interview Buddy", path: "/interviewbuddy-goodies.jpg" },
-  { name: "Navan", path: "/navan-goodies.jpg" },
-  { name: "Balsamiq", path: "/balsamiq-goodies.jpg" },
-  { name: "CodeCrafters.io", path: "/CodeCrafters.io full logo (Dark text).png" },
+  { name: "Art of Problem Solving", path: "/Art of problem solving-goodies.jpg", url: "https://artofproblemsolving.com/" },
+  { name: "Eventopia", path: "/eventopia-goodies.jpg", url: "https://eventopia.in/" },
+  { name: "Interview Buddy", path: "/interviewbuddy-goodies.jpg", url: "https://interviewbuddy.net/" },
+  { name: "Navan", path: "/navan-goodies.jpg", url: "https://navan.ai/" },
+  { name: "Balsamiq", path: "/balsamiq-goodies.jpg", url: "https://balsamiq.com/" },
+  { name: "CodeCrafters.io", path: "/CodeCrafters.io full logo (Dark text).png", url: "https://codecrafters.io/" },
 ];
 
-const SponsorLogo = ({ name, path }: { name: string; path: string }) => (
-  <div className="flex justify-center items-center p-2">
+const SponsorLogo = ({ name, path, url }: { name: string; path: string; url: string }) => (
+  <Link href={url} target="_blank" rel="noopener noreferrer" className="flex justify-center items-center p-2">
     <div className="relative group flex justify-center items-center h-32 w-full bg-white rounded-lg p-6 transition-all duration-300 hover:shadow-lg hover:scale-105 hover:-translate-y-2">
       <div className="relative w-full h-full flex items-center justify-center">
         <Image
@@ -29,7 +30,7 @@ const SponsorLogo = ({ name, path }: { name: string; path: string }) => (
         />
       </div>
     </div>
-  </div>
+  </Link>
 );
 
 export function SponsorsSection() {
