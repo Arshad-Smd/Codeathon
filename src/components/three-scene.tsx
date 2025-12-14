@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useEffect, useRef, useMemo } from 'react';
@@ -217,10 +216,11 @@ export function ThreeScene() {
         let sectionProgress = currentScrollInSection / totalScrollForSection;
         const clampedProgress = Math.max(0, Math.min(1, sectionProgress));
         
+        const isMobile = window.innerWidth < 768;
         const leftEdge = screenToWorld(0, 0);
         const rightEdge = screenToWorld(window.innerWidth, 0);
         
-        const buffer = 0.8;
+        const buffer = isMobile ? 0.3 : 0.5;
         const startX = leftEdge.x + buffer;
         const endX = rightEdge.x - buffer;
         
@@ -234,7 +234,8 @@ export function ThreeScene() {
                 : startX + ((endX - startX) * clampedProgress);
         }
 
-        if (finalScenePathNodeIndex === 0 && window.scrollY === 0) {
+        // Lock position at the very beginning of the scroll
+        if (finalScenePathNodeIndex === 0 && window.scrollY < 10) {
             targetX = startX;
         }
 
