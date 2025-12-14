@@ -185,7 +185,7 @@ export function ThreeScene() {
             }
         }
         // Ensure the first section is active when scrolled to the top
-        if (state.elements.get(scenePath[0].sectionId)!.getBoundingClientRect().top > 0) {
+        if (state.elements.get(scenePath[0].sectionId)!.getBoundingClientRect().top >= 0) {
             activeNodeIndex = 0;
         }
 
@@ -220,14 +220,13 @@ export function ThreeScene() {
         const leftEdge = screenToWorld(0, 0);
         const rightEdge = screenToWorld(window.innerWidth, 0);
         
-        const buffer = 0.5;
+        const buffer = 0.2;
         const startX = leftEdge.x + buffer;
         const endX = rightEdge.x - buffer;
         
         let targetX;
         
-        // Lock position at the very beginning of the scroll
-        if (activeNodeIndex === 0 && window.scrollY < 10) {
+        if (window.scrollY < 10) {
             targetX = startX;
         } else {
              targetX = activeNode.walkDirection === 'left' 
