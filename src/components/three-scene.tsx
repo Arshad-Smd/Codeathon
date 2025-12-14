@@ -16,8 +16,8 @@ const scenePath: ScenePathNode[] = [
   { sectionId: 'about', walkDirection: 'left' },
   { sectionId: 'timeline', walkDirection: 'right', isTimeline: true },
   { sectionId: 'prizes', walkDirection: 'left' },
-  { sectionId: 'challenges', walkDirection: 'left' },
-  { sectionId: 'sponsors', walkDirection: 'right'},
+  { sectionId: 'challenges', walkDirection: 'right' },
+  { sectionId: 'sponsors', walkDirection: 'left'},
 ];
 
 export function ThreeScene() {
