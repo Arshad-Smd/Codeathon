@@ -55,6 +55,7 @@ export function ThreeScene() {
     elements: new Map<string, HTMLElement>(),
     timelineBricks: [] as Element[],
     isPrizeRevealed: false,
+    questionBlockPlaceholder: null as HTMLElement | null,
   }), []);
 
   const screenToWorld = (x: number, y: number): drei.Vector3 => {
@@ -99,6 +100,8 @@ export function ThreeScene() {
             }
         }
     });
+    state.questionBlockPlaceholder = document.getElementById('question-block-placeholder');
+
 
     const loader = new GLTFLoader();
     
@@ -126,7 +129,6 @@ export function ThreeScene() {
     loader.load('/question_block.glb', (gltf) => {
         state.questionBlock = gltf.scene;
         state.questionBlock.scale.set(0.5, 0.5, 0.5);
-        state.questionBlock.position.set(0, 10, 0); // Start offscreen vertically
         state.scene.add(state.questionBlock);
     });
 
@@ -265,7 +267,6 @@ export function ThreeScene() {
                 const blockBox = new drei.Box3().setFromObject(state.questionBlock);
                 if (marioBox.intersectsBox(blockBox) && state.velocityY > 0) {
                      state.isPrizeRevealed = true;
-                     state.questionBlock.visible = false;
                      window.dispatchEvent(new CustomEvent("prize-reveal"));
                 }
             }
@@ -283,21 +284,19 @@ export function ThreeScene() {
       }
 
       if (state.questionBlock) {
-          const activeNode = scenePath[state.currentSectionIndex];
-          if (activeNode && activeNode.sectionId === 'prizes' && !state.isPrizeRevealed) {
-              const prizeSection = state.elements.get('prizes');
-              if (prizeSection) {
-                  const prizeRect = prizeSection.getBoundingClientRect();
-                  const worldPos = screenToWorld(prizeRect.left + prizeRect.width / 2, prizeRect.top + prizeRect.height / 3);
+          if (state.questionBlockPlaceholder && !state.isPrizeRevealed) {
+              const rect = state.questionBlockPlaceholder.getBoundingClientRect();
+              if (rect.top < window.innerHeight && rect.bottom > 0) {
+                  const worldPos = screenToWorld(rect.left + rect.width / 2, rect.top + rect.height / 2);
                   state.questionBlock.position.set(worldPos.x, worldPos.y, 0);
                   state.questionBlock.visible = true;
+                  state.questionBlock.rotation.y += 0.01;
               } else {
                   state.questionBlock.visible = false;
               }
           } else {
               state.questionBlock.visible = false;
           }
-          state.questionBlock.rotation.y += 0.01;
       }
       
       if(state.renderer) state.renderer.render(state.scene, state.camera);

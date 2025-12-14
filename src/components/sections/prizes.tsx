@@ -32,6 +32,7 @@ export function PrizesSection() {
                 A mysterious prize awaits! Have Mario jump and hit the question block to see what's inside.
               </p>
             </div>
+            <div id="question-block-placeholder" className="w-32 h-32 mt-8" />
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center space-y-4 animate-in fade-in zoom-in-90 duration-500">
