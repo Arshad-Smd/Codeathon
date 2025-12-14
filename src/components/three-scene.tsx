@@ -17,6 +17,7 @@ const scenePath: ScenePathNode[] = [
   { sectionId: 'prizes', walkDirection: 'left' },
   { sectionId: 'challenges', walkDirection: 'right' },
   { sectionId: 'sponsors', walkDirection: 'left'},
+  { sectionId: 'contact', walkDirection: 'right' },
 ];
 
 export function ThreeScene() {
@@ -121,7 +122,7 @@ export function ThreeScene() {
     state.camera.position.z = 5;
 
     // Cache DOM elements
-    [...scenePath, {sectionId: 'contact', walkDirection: 'left'}].forEach(node => {
+    scenePath.forEach(node => {
         const el = document.getElementById(node.sectionId);
         if (el) {
             state.elements.set(node.sectionId, el);
@@ -168,14 +169,13 @@ export function ThreeScene() {
         let activeNodeIndex = state.currentSectionIndex;
         let minDistance = Infinity;
 
-        const allSections = [...scenePath, {sectionId: 'contact', walkDirection: 'left'}];
-
-        for (let i = 0; i < allSections.length; i++) {
-            const node = allSections[i];
+        for (let i = 0; i < scenePath.length; i++) {
+            const node = scenePath[i];
             const element = state.elements.get(node.sectionId);
             if (!element) continue;
 
             const rect = element.getBoundingClientRect();
+            // Check if section is in the viewport
             if (rect.bottom > 0 && rect.top < window.innerHeight) {
                  const distanceToCenter = Math.abs(rect.top + rect.height / 2 - window.innerHeight / 2);
                  if (distanceToCenter < minDistance) {
@@ -184,24 +184,22 @@ export function ThreeScene() {
                 }
             }
         }
+        // Ensure the first section is active when scrolled to the top
         if (state.elements.get(scenePath[0].sectionId)!.getBoundingClientRect().top > 0) {
             activeNodeIndex = 0;
         }
 
-        const isContactSectionActive = activeNodeIndex === scenePath.length;
-        const finalScenePathNodeIndex = isContactSectionActive ? scenePath.length - 1 : activeNodeIndex;
-        
-        const activeNode = scenePath[finalScenePathNodeIndex];
+        const activeNode = scenePath[activeNodeIndex];
         const element = state.elements.get(activeNode.sectionId);
         if (!element) return;
         
         const rect = element.getBoundingClientRect();
 
-        if (finalScenePathNodeIndex !== state.currentSectionIndex) {
+        if (activeNodeIndex !== state.currentSectionIndex) {
             state.isFalling = true;
             state.velocityY = 0;
             state.previousWallY = state.currentWallY;
-            state.currentSectionIndex = finalScenePathNodeIndex;
+            state.currentSectionIndex = activeNodeIndex;
         }
 
         const baseRotation = activeNode.walkDirection === 'left' ? -Math.PI / 2 : Math.PI / 2;
@@ -211,9 +209,12 @@ export function ThreeScene() {
         const sectionTop = rect.top + window.scrollY;
         const sectionHeight = element.offsetHeight;
         const viewportHeight = window.innerHeight;
+        // Total scrollable distance for the section to be fully visible and then scrolled past
         const totalScrollForSection = sectionHeight + viewportHeight;
+        // How far we've scrolled into the section's total scrollable area
         const currentScrollInSection = window.scrollY - (sectionTop - viewportHeight);
         let sectionProgress = currentScrollInSection / totalScrollForSection;
+        
         const clampedProgress = Math.max(0, Math.min(1, sectionProgress));
         
         const isMobile = window.innerWidth < 768;
@@ -226,7 +227,9 @@ export function ThreeScene() {
         
         let targetX;
         
-        if (isContactSectionActive) {
+        // Special handling for the very last section to ensure Mario walks all the way to the end
+        if (activeNodeIndex === scenePath.length - 1) {
+             // For the last section, we want him to walk fully to the left
              targetX = startX;
         } else {
              targetX = activeNode.walkDirection === 'left' 
@@ -235,9 +238,10 @@ export function ThreeScene() {
         }
 
         // Lock position at the very beginning of the scroll
-        if (finalScenePathNodeIndex === 0 && window.scrollY < 10) {
+        if (activeNodeIndex === 0 && window.scrollY < 10) {
             targetX = startX;
         }
+
 
         state.currentTarget.x = targetX;
         updateMarioAndBlockPositions();
@@ -274,15 +278,17 @@ export function ThreeScene() {
         
         const distanceToTargetX = Math.abs(state.mario.position.x - state.currentTarget.x);
 
-        if (distanceToTargetX > 0.01) {
-            switchAction('walk');
-            state.mario.position.x += (state.currentTarget.x - state.mario.position.x) * 0.2;
-        } else {
-            switchAction('idle');
-            state.mario.position.x = state.currentTarget.x;
+        // Only update X position if NOT jumping
+        if (!state.isJumping) {
+            if (distanceToTargetX > 0.01) {
+                switchAction('walk');
+                state.mario.position.x += (state.currentTarget.x - state.mario.position.x) * 0.2;
+            } else {
+                switchAction('idle');
+                state.mario.position.x = state.currentTarget.x;
+            }
         }
         
-
         state.mario.rotation.y += (state.targetRotationY - state.mario.rotation.y) * 0.2;
 
         const isActivelyFalling = state.isJumping || state.isFalling;
