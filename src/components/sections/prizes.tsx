@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useEffect, useState } from "react";
@@ -9,41 +8,35 @@ import { useIsMobile } from "@/hooks/use-mobile";
 
 export function PrizesSection() {
   const isMobile = useIsMobile();
-  const [isRevealed, setIsRevealed] = useState(isMobile);
+  const [isRevealed, setIsRevealed] = useState(false);
+
+  useEffect(() => {
+    // On initial mount, if isMobile is determined, set state.
+    if (isMobile) {
+      setIsRevealed(true);
+    }
+  }, [isMobile]);
+
 
   useEffect(() => {
     // If it's already revealed on mobile, no need to add listener
-    if (isMobile) {
-      setIsRevealed(true);
-      return;
-    };
+    if (isMobile) return;
 
     const handlePrizeReveal = () => {
       setIsRevealed(true);
     };
 
-    window.addEventListener("prize-reveal", handlePrizeReveal);
-
+    // Make sure we only add one listener
+    if (!(window as any).__prizeRevealListenerSet) {
+        window.addEventListener("prize-reveal", handlePrizeReveal);
+        (window as any).__prizeRevealListenerSet = true;
+    }
+    
+    // Cleanup on unmount
     return () => {
       window.removeEventListener("prize-reveal", handlePrizeReveal);
+      (window as any).__prizeRevealListenerSet = false;
     };
-  }, [isMobile]);
-
-  // When isMobile value changes (on initial client-side render), update the state
-  useEffect(() => {
-    if(isMobile) {
-      setIsRevealed(true);
-    } else {
-        // This handles the case where a user might resize from mobile to desktop
-        // without this, the prize would stay revealed.
-        // We check if an event listener has been set by checking for a placeholder property
-        if (!(window as any).__prizeRevealListenerSet) {
-             const handlePrizeReveal = () => setIsRevealed(true);
-             window.addEventListener("prize-reveal", handlePrizeReveal);
-             (window as any).__prizeRevealListenerSet = true;
-             // cleanup on unmount is already handled by the other useEffect
-        }
-    }
   }, [isMobile]);
 
 
@@ -66,7 +59,7 @@ export function PrizesSection() {
             </div>
           </div>
         ) : (
-          <div className="flex flex-col items-center justify-center space-y-4 animate-in fade-in zoom-in-90 duration-500">
+          <div className="flex flex-col items-center justify-center space-y-4 animate-in fade-in zoom-in-90 duration-500 w-full">
              <div className="space-y-2">
                 <h2 className="font-headline text-3xl font-bold tracking-tighter text-accent sm:text-5xl">You found it!</h2>
                 <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
@@ -74,11 +67,11 @@ export function PrizesSection() {
                 </p>
             </div>
             <div className="relative bg-mario-brown p-6 md:p-8 border-t-4 border-l-4 border-r-4 border-b-8 border-black/70 shadow-[inset_4px_4px_0px_0px_rgba(255,255,255,0.3),inset_-4px_0px_0px_0px_rgba(0,0,0,0.25)] text-center w-full max-w-lg transition-transform duration-200 hover:-translate-y-2 flex flex-col items-center justify-center">
-              <TrophyIcon className="h-16 w-16 text-yellow-400 animate-spin-y" />
+              <TrophyIcon className="h-12 w-12 md:h-16 md:w-16 text-yellow-400 animate-spin-y" />
               <p className="font-headline text-sm md:text-base font-semibold leading-none tracking-tight text-yellow-300/80 mt-4">
                 Overall Prize Pool
               </p>
-              <p className="font-headline text-4xl sm:text-5xl font-bold text-white mt-2 drop-shadow-lg">
+              <p className="font-headline text-3xl xxs:text-4xl sm:text-5xl font-bold text-white mt-2 drop-shadow-lg">
                 ₹1,00,000
               </p>
             </div>
@@ -89,4 +82,3 @@ export function PrizesSection() {
     </section>
   );
 }
-
