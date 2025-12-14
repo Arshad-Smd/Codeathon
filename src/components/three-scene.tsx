@@ -16,7 +16,7 @@ const scenePath: ScenePathNode[] = [
   { sectionId: 'timeline', walkDirection: 'right', isTimeline: true },
   { sectionId: 'prizes', walkDirection: 'left' },
   { sectionId: 'challenges', walkDirection: 'right' },
-  { sectionId: 'sponsors', walkDirection: 'left'},
+  { sectionId: 'sponsors', walkDirection: 'right'},
   { sectionId: 'contact', walkDirection: 'right' },
 ];
 
@@ -282,14 +282,14 @@ export function ThreeScene() {
         if (!state.isJumping) {
             if (distanceToTargetX > 0.01) {
                 switchAction('walk');
-                state.mario.position.x += (state.currentTarget.x - state.mario.position.x) * 0.2;
+                state.mario.position.x += (state.currentTarget.x - state.mario.position.x) * 0.05;
             } else {
                 switchAction('idle');
                 state.mario.position.x = state.currentTarget.x;
             }
         }
         
-        state.mario.rotation.y += (state.targetRotationY - state.mario.rotation.y) * 0.2;
+        state.mario.rotation.y += (state.targetRotationY - state.mario.rotation.y) * 0.05;
 
         const isActivelyFalling = state.isJumping || state.isFalling;
 
