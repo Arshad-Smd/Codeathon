@@ -13,6 +13,7 @@ const silverSponsors = [
   { name: "Interview Buddy", path: "/interviewbuddy-goodies.jpg" },
   { name: "Navan", path: "/navan-goodies.jpg" },
   { name: "Balsamiq", path: "/balsamiq-goodies.jpg" },
+  { name: "CodeCrafters.io", path: "/CodeCrafters.io full logo (Dark text).png" },
 ];
 
 const SponsorLogo = ({ name, path }: { name: string; path: string }) => (
