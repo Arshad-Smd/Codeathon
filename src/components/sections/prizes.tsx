@@ -26,13 +26,18 @@ export function PrizesSection() {
       <div className="container px-4 md:px-6 text-center">
         {!isRevealed ? (
           <div className="flex flex-col items-center justify-center space-y-4">
-            <div className="space-y-2">
+            <div className="space-y-2 mb-8">
               <h2 className="font-headline text-3xl font-bold tracking-tighter text-accent sm:text-5xl">The Grand Prize</h2>
-              <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                A mysterious prize awaits! Have Mario jump and hit the question block to see what's inside.
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 items-center gap-4 w-full max-w-4xl">
+              <p className="text-muted-foreground text-right md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+                A mysterious prize awaits! Have Mario jump and hit the question block...
+              </p>
+              <div id="question-block-placeholder" className="w-32 h-32 mx-auto mb-8" />
+              <p className="text-muted-foreground text-left md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+                ...to see what's inside!
               </p>
             </div>
-            <div id="question-block-placeholder" className="w-32 h-32 mt-8" />
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center space-y-4 animate-in fade-in zoom-in-90 duration-500">
