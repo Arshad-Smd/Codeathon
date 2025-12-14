@@ -5,11 +5,16 @@ import { useEffect, useState } from "react";
 import { TrophyIcon } from "../icons/trophy";
 import { ResponsiveBrickFloor } from "@/components/ui/responsive-brick-floor";
 import Image from "next/image";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export function PrizesSection() {
-  const [isRevealed, setIsRevealed] = useState(false);
+  const isMobile = useIsMobile();
+  const [isRevealed, setIsRevealed] = useState(isMobile);
 
   useEffect(() => {
+    // If it's already revealed on mobile, no need to add listener
+    if (isMobile) return;
+
     const handlePrizeReveal = () => {
       setIsRevealed(true);
     };
@@ -19,7 +24,15 @@ export function PrizesSection() {
     return () => {
       window.removeEventListener("prize-reveal", handlePrizeReveal);
     };
-  }, []);
+  }, [isMobile]);
+
+  // When isMobile value changes (on initial client-side render), update the state
+  useEffect(() => {
+    if(isMobile) {
+      setIsRevealed(true);
+    }
+  }, [isMobile]);
+
 
   return (
     <section id="prizes" className="relative w-full bg-transparent py-12 md:py-24 lg:py-32 z-10 min-h-[50vh] flex items-center justify-center">
