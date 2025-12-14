@@ -17,7 +17,6 @@ const scenePath: ScenePathNode[] = [
   { sectionId: 'prizes', walkDirection: 'left' },
   { sectionId: 'challenges', walkDirection: 'right' },
   { sectionId: 'sponsors', walkDirection: 'right'},
-  { sectionId: 'contact', walkDirection: 'right' },
 ];
 
 export function ThreeScene() {
@@ -217,31 +216,23 @@ export function ThreeScene() {
         
         const clampedProgress = Math.max(0, Math.min(1, sectionProgress));
         
-        const isMobile = window.innerWidth < 768;
         const leftEdge = screenToWorld(0, 0);
         const rightEdge = screenToWorld(window.innerWidth, 0);
         
-        const buffer = isMobile ? 0.3 : 0.5;
+        const buffer = 0.5;
         const startX = leftEdge.x + buffer;
         const endX = rightEdge.x - buffer;
         
         let targetX;
         
-        // Special handling for the very last section to ensure Mario walks all the way to the end
-        if (activeNodeIndex === scenePath.length - 1) {
-             // For the last section, we want him to walk fully to the left
-             targetX = startX;
+        // Lock position at the very beginning of the scroll
+        if (activeNodeIndex === 0 && window.scrollY < 10) {
+            targetX = startX;
         } else {
              targetX = activeNode.walkDirection === 'left' 
                 ? endX - ((endX - startX) * clampedProgress)
                 : startX + ((endX - startX) * clampedProgress);
         }
-
-        // Lock position at the very beginning of the scroll
-        if (activeNodeIndex === 0 && window.scrollY < 10) {
-            targetX = startX;
-        }
-
 
         state.currentTarget.x = targetX;
         updateMarioAndBlockPositions();
