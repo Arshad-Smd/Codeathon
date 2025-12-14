@@ -220,8 +220,10 @@ export function ThreeScene() {
         const isMobile = window.innerWidth < 768;
         const leftEdge = screenToWorld(0, 0);
         const rightEdge = screenToWorld(window.innerWidth, 0);
-        const startX = isMobile ? leftEdge.x + 1 : leftEdge.x + 1.5;
-        const endX = isMobile ? rightEdge.x - 1 : rightEdge.x - 1.5;
+        
+        const buffer = isMobile ? 0.5 : 0.8;
+        const startX = leftEdge.x + buffer;
+        const endX = rightEdge.x - buffer;
         
         let targetX;
         
@@ -361,5 +363,3 @@ export function ThreeScene() {
 
   return <div ref={mountRef} className="fixed top-0 left-0 w-full h-full z-30 pointer-events-none" />;
 }
-
-    
