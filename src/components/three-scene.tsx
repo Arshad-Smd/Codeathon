@@ -23,7 +23,6 @@ const scenePath: ScenePathNode[] = [
 export function ThreeScene() {
   const mountRef = useRef<HTMLDivElement>(null);
   const animationFrameId = useRef<number>();
-  const scrollTimeout = useRef<NodeJS.Timeout | null>(null);
 
   const state = useMemo(() => ({
     camera: new drei.PerspectiveCamera(75, 1, 0.1, 1000),
@@ -66,6 +65,18 @@ export function ThreeScene() {
     return state.camera.position.clone().add(vec.multiplyScalar(distance));
   }
 
+  const switchAction = (newActionName: 'walk' | 'idle' | 'jump') => {
+    if (state.lastAction === newActionName || !state.actions.idle) return;
+
+    const newAction = state.actions[newActionName];
+    const oldAction = state.actions[state.lastAction];
+    
+    if (oldAction) oldAction.fadeOut(0.2);
+    if (newAction) newAction.reset().fadeIn(0.2).play();
+    
+    state.lastAction = newActionName;
+  }
+
   const updateMarioAndBlockPositions = () => {
     const activeNode = scenePath[state.currentSectionIndex];
     if (!activeNode) return;
@@ -79,9 +90,6 @@ export function ThreeScene() {
         const firstBrick = state.timelineBricks[0];
         const blockRect = firstBrick.getBoundingClientRect();
         wallY = screenToWorld(window.innerWidth / 2, blockRect.top).y + marioFeetOffset;
-    } else if (activeNode.sectionId === 'contact') {
-        const wallTopY = rect.bottom - 64;
-        wallY = screenToWorld(window.innerWidth / 2, wallTopY).y + marioFeetOffset;
     } else {
         const wallTopY = rect.bottom - 64;
         wallY = screenToWorld(window.innerWidth / 2, wallTopY).y + marioFeetOffset;
@@ -118,10 +126,6 @@ export function ThreeScene() {
         const el = document.getElementById(node.sectionId);
         if (el) {
             state.elements.set(node.sectionId, el);
-            if (node.isTimeline) {
-                const bricks = el.querySelectorAll('.timeline-brick');
-                state.timelineBricks = Array.from(bricks);
-            }
         }
     });
     state.questionBlockPlaceholder = document.getElementById('question-block-placeholder');
@@ -156,25 +160,9 @@ export function ThreeScene() {
         state.scene.add(state.questionBlock);
     });
 
-    const switchAction = (newActionName: 'walk' | 'idle' | 'jump') => {
-        if (state.lastAction === newActionName) return;
-
-        const newAction = state.actions[newActionName];
-        const oldAction = state.actions[state.lastAction];
-        
-        if (oldAction) oldAction.fadeOut(0.2);
-        if (newAction) newAction.reset().fadeIn(0.2).play();
-        
-        state.lastAction = newActionName;
-    }
-
     const handleScroll = () => {
         if (state.isJumping) return;
-        if (scrollTimeout.current) clearTimeout(scrollTimeout.current);
         
-        switchAction('walk');
-        scrollTimeout.current = setTimeout(() => { if(!state.isJumping) switchAction('idle'); }, 150);
-
         const scrollDirection = window.scrollY > state.previousScrollY ? 'down' : 'up';
         state.previousScrollY = window.scrollY;
 
@@ -232,18 +220,20 @@ export function ThreeScene() {
         const isMobile = window.innerWidth < 768;
         const leftEdge = screenToWorld(0, 0);
         const rightEdge = screenToWorld(window.innerWidth, 0);
-        const startX = isMobile ? leftEdge.x + 1 : leftEdge.x + 1;
-        const endX = isMobile ? rightEdge.x - 1 : rightEdge.x - 1;
+        const startX = isMobile ? leftEdge.x + 1 : leftEdge.x + 1.5;
+        const endX = isMobile ? rightEdge.x - 1 : rightEdge.x - 1.5;
         
-        let targetX = activeNode.walkDirection === 'left' 
-            ? endX - ((endX - startX) * clampedProgress)
-            : startX + ((endX - startX) * clampedProgress);
-
-        if (finalScenePathNodeIndex === 0 && window.scrollY === 0) {
-            targetX = startX;
-        }
+        let targetX;
         
         if (isContactSectionActive) {
+             targetX = startX;
+        } else {
+             targetX = activeNode.walkDirection === 'left' 
+                ? endX - ((endX - startX) * clampedProgress)
+                : startX + ((endX - startX) * clampedProgress);
+        }
+
+        if (finalScenePathNodeIndex === 0 && window.scrollY === 0) {
             targetX = startX;
         }
 
@@ -279,10 +269,17 @@ export function ThreeScene() {
       updateMarioAndBlockPositions();
 
       if (state.mario) {
-        const atEndOfSponsors = state.currentSectionIndex === scenePath.length - 1 && Math.abs(state.mario.position.x - state.currentTarget.x) < 0.1;
-        if (!atEndOfSponsors || state.lastAction === 'walk') {
-            state.mario.position.x += (state.currentTarget.x - state.mario.position.x) * 0.1;
+        
+        const distanceToTargetX = Math.abs(state.mario.position.x - state.currentTarget.x);
+
+        if (distanceToTargetX > 0.01) {
+            switchAction('walk');
+            state.mario.position.x += (state.currentTarget.x - state.mario.position.x) * 0.12;
+        } else {
+            switchAction('idle');
+            state.mario.position.x = state.currentTarget.x;
         }
+        
 
         state.mario.rotation.y += (state.targetRotationY - state.mario.rotation.y) * 0.1;
 
@@ -355,7 +352,6 @@ export function ThreeScene() {
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('keydown', handleKeyDown);
       if (animationFrameId.current) cancelAnimationFrame(animationFrameId.current);
-      if (scrollTimeout.current) clearTimeout(scrollTimeout.current);
       if (currentMount && state.renderer?.domElement.parentNode === currentMount) {
         currentMount.removeChild(state.renderer.domElement);
       }
@@ -367,6 +363,3 @@ export function ThreeScene() {
 }
 
     
-
-    
-
