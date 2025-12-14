@@ -26,7 +26,7 @@ const organizers = [
 ];
 
 const ContactCard = ({ name, phone, linkedin }: { name: string, phone: string, linkedin: string | null }) => (
-  <div className="relative bg-mario-brown p-4 border-t-4 border-l-4 border-r-4 border-b-8 border-black/70 shadow-[inset_4px_4px_0px_0px_rgba(255,255,255,0.3),inset_-4px_0px_0px_0px_rgba(0,0,0,0.25)] w-full text-center">
+  <div className="relative bg-mario-brown p-4 border-t-4 border-l-4 border-r-4 border-b-8 border-black/70 shadow-[inset_4px_4px_0px_0px_rgba(255,255,255,0.3),inset_-4px_0px_0px_0px_rgba(0,0,0,0.25)] w-full text-center transition-transform duration-200 hover:-translate-y-2">
     <h4 className="text-lg font-bold font-headline text-white drop-shadow-sm">{name}</h4>
     <div className="flex items-center justify-center gap-2 mt-2">
       <Phone className="h-4 w-4 text-gray-100" />

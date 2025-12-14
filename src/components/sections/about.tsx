@@ -16,21 +16,21 @@ export function AboutSection() {
           </div>
         </div>
         <div className="mx-auto grid max-w-5xl justify-center gap-6 py-12 lg:grid-cols-3 lg:gap-12">
-          <BrickBlock id="innovate-brick" className="text-center max-w-sm">
+          <BrickBlock id="innovate-brick" className="text-center max-w-sm transition-transform duration-200 hover:-translate-y-2">
             <div className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-primary/10">
               <Rocket className="h-10 w-10 text-gray-100" />
             </div>
             <h3 className="font-headline text-2xl font-semibold leading-none tracking-tight text-yellow-300">Innovate</h3>
             <p className="text-sm text-white mt-2">Explore and build creative solutions that push the limits of technology.</p>
           </BrickBlock>
-          <BrickBlock id="collaborate-brick" className="text-center max-w-sm">
+          <BrickBlock id="collaborate-brick" className="text-center max-w-sm transition-transform duration-200 hover:-translate-y-2">
             <div className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-primary/10">
               <Users className="h-10 w-10 text-gray-100" />
             </div>
             <h3 className="font-headline text-2xl font-semibold leading-none tracking-tight text-yellow-300">Collaborate</h3>
             <p className="text-sm text-white mt-2">Work with talented individuals from diverse backgrounds and skill sets.</p>
           </BrickBlock>
-          <BrickBlock id="launch-brick" className="text-center max-w-sm">
+          <BrickBlock id="launch-brick" className="text-center max-w-sm transition-transform duration-200 hover:-translate-y-2">
             <div className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-primary/10">
               <Orbit className="h-10 w-10 text-gray-100" />
             </div>

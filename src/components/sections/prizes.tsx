@@ -32,7 +32,7 @@ export function PrizesSection() {
         </div>
         <div className="mx-auto grid max-w-5xl justify-center gap-6 py-12 lg:grid-cols-3 lg:gap-12">
           {prizes.map((prize, index) => (
-            <BrickBlock key={index} id={`prize-brick-${index}`} className="text-center max-w-sm">
+            <BrickBlock key={index} id={`prize-brick-${index}`} className="text-center max-w-sm transition-transform duration-200 hover:-translate-y-2">
                 <div className="relative mx-auto mb-4 h-24 w-24">
                     <Image src="/coin icon.png" alt="Coin" layout="fill" objectFit="contain" />
                 </div>

@@ -17,7 +17,7 @@ const silverSponsors = [
 
 const SponsorLogo = ({ name, path }: { name: string; path: string }) => (
   <div className="flex justify-center items-center p-2">
-    <div className="relative group flex justify-center items-center h-32 w-full bg-white rounded-lg p-6 transition-all duration-300 hover:shadow-lg hover:scale-105">
+    <div className="relative group flex justify-center items-center h-32 w-full bg-white rounded-lg p-6 transition-all duration-300 hover:shadow-lg hover:scale-105 hover:-translate-y-2">
       <div className="relative w-full h-full flex items-center justify-center">
         <Image
           src={path}

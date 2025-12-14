@@ -61,7 +61,7 @@ export function ProblemStatementsSection() {
         <div className="mx-auto max-w-3xl">
           <Accordion type="single" collapsible className="w-full">
             {themes.map((theme) => (
-                <AccordionItem key={theme.value} value={theme.value}>
+                <AccordionItem key={theme.value} value={theme.value} className="transition-transform duration-200 hover:-translate-y-1">
                     <AccordionTrigger className="text-lg font-headline hover:no-underline">
                         <div className="flex items-center gap-4">
                             <theme.icon className="h-6 w-6 text-gray-100" />
