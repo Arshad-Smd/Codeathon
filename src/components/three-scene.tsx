@@ -217,11 +217,10 @@ export function ThreeScene() {
         let sectionProgress = currentScrollInSection / totalScrollForSection;
         const clampedProgress = Math.max(0, Math.min(1, sectionProgress));
         
-        const isMobile = window.innerWidth < 768;
         const leftEdge = screenToWorld(0, 0);
         const rightEdge = screenToWorld(window.innerWidth, 0);
         
-        const buffer = isMobile ? 0.5 : 0.8;
+        const buffer = 0.8;
         const startX = leftEdge.x + buffer;
         const endX = rightEdge.x - buffer;
         
@@ -276,14 +275,14 @@ export function ThreeScene() {
 
         if (distanceToTargetX > 0.01) {
             switchAction('walk');
-            state.mario.position.x += (state.currentTarget.x - state.mario.position.x) * 0.12;
+            state.mario.position.x += (state.currentTarget.x - state.mario.position.x) * 0.2;
         } else {
             switchAction('idle');
             state.mario.position.x = state.currentTarget.x;
         }
         
 
-        state.mario.rotation.y += (state.targetRotationY - state.mario.rotation.y) * 0.1;
+        state.mario.rotation.y += (state.targetRotationY - state.mario.rotation.y) * 0.2;
 
         const isActivelyFalling = state.isJumping || state.isFalling;
 
