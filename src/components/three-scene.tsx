@@ -124,6 +124,7 @@ export function ThreeScene() {
 
     // Initialize renderer
     state.renderer = new drei.WebGLRenderer({ antialias: true, alpha: true });
+    state.renderer.outputColorSpace = drei.SRGBColorSpace;
     state.renderer.setSize(currentMount.clientWidth, currentMount.clientHeight);
     state.renderer.setPixelRatio(window.devicePixelRatio);
     currentMount.appendChild(state.renderer.domElement);
