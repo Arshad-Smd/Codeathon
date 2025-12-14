@@ -230,16 +230,18 @@ export function ThreeScene() {
         state.currentTarget.set(targetX, wallY, 0);
 
         // Position question block in prize section
-        if (activeNode.sectionId === 'prizes' && state.questionBlock && !state.isPrizeRevealed) {
-            const prizeSection = state.elements.get('prizes');
-            if (prizeSection) {
-                const prizeRect = prizeSection.getBoundingClientRect();
-                const worldPos = screenToWorld(prizeRect.left + prizeRect.width / 2, prizeRect.top + prizeRect.height / 3);
-                state.questionBlock.position.set(worldPos.x, worldPos.y, 0);
-                state.questionBlock.visible = true;
+        if (activeNode.sectionId === 'prizes' && state.questionBlock) {
+            if (!state.isPrizeRevealed) {
+                const prizeSection = state.elements.get('prizes');
+                if (prizeSection) {
+                    const prizeRect = prizeSection.getBoundingClientRect();
+                    const worldPos = screenToWorld(prizeRect.left + prizeRect.width / 2, prizeRect.top + prizeRect.height / 3);
+                    state.questionBlock.position.set(worldPos.x, worldPos.y, 0);
+                    state.questionBlock.visible = true;
+                }
             }
         } else if (state.questionBlock) {
-             state.questionBlock.visible = state.isPrizeRevealed ? false : activeNode.sectionId === 'prizes';
+            state.questionBlock.visible = false;
         }
     };
     
@@ -331,5 +333,3 @@ export function ThreeScene() {
 
   return <div ref={mountRef} className="fixed top-0 left-0 w-full h-full z-30 pointer-events-none" />;
 }
-
-    
