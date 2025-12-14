@@ -241,13 +241,18 @@ export function ThreeScene() {
         if (activeNodeIndex === 0 && window.scrollY === 0) {
             targetX = startX;
         }
+        if (activeNode.sectionId === 'sponsors' && scrollDirection === 'down' && clampedProgress > 0.9) {
+          targetX = endX;
+        }
+
 
         state.currentTarget.x = targetX;
         updateMarioAndBlockPositions();
     };
     
-    const handleKeyUp = (event: KeyboardEvent) => {
+    const handleKeyDown = (event: KeyboardEvent) => {
         if (event.code === 'ArrowUp' && !state.isJumping && !state.isFalling) {
+            event.preventDefault();
             state.isJumping = true;
             state.velocityY = 0.25; 
             switchAction('jump');
@@ -261,7 +266,7 @@ export function ThreeScene() {
     }
 
     window.addEventListener('scroll', handleScroll, { passive: true });
-    window.addEventListener('keyup', handleKeyUp);
+    window.addEventListener('keydown', handleKeyDown);
 
     const clock = new drei.Clock();
     const animate = () => {
@@ -280,7 +285,12 @@ export function ThreeScene() {
 
       if (state.mario) {
         state.mario.visible = activeNode?.sectionId !== 'contact';
-        state.mario.position.x += (state.currentTarget.x - state.mario.position.x) * 0.05;
+
+        const atEndOfSponsors = activeNode.sectionId === 'sponsors' && Math.abs(state.mario.position.x - state.currentTarget.x) < 0.1;
+        if (!atEndOfSponsors) {
+            state.mario.position.x += (state.currentTarget.x - state.mario.position.x) * 0.05;
+        }
+
         state.mario.rotation.y += (state.targetRotationY - state.mario.rotation.y) * 0.08;
 
         const isActivelyFalling = state.isJumping || state.isFalling || (needsGravity && state.mario.position.y > state.currentWallY);
@@ -350,7 +360,7 @@ export function ThreeScene() {
     return () => {
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('keyup', handleKeyUp);
+      window.removeEventListener('keydown', handleKeyDown);
       if (animationFrameId.current) cancelAnimationFrame(animationFrameId.current);
       if (scrollTimeout.current) clearTimeout(scrollTimeout.current);
       if (currentMount && state.renderer?.domElement.parentNode === currentMount) {
@@ -358,7 +368,7 @@ export function ThreeScene() {
       }
       state.renderer?.dispose();
     };
-  }, [state, screenToWorld, updateMarioAndBlockPositions]);
+  }, [state]);
 
   return <div ref={mountRef} className="fixed top-0 left-0 w-full h-full z-30 pointer-events-none" />;
 }
