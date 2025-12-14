@@ -19,7 +19,6 @@ const scenePath: ScenePathNode[] = [
   { sectionId: 'prizes', walkDirection: 'left', hasDynamicContent: true },
   { sectionId: 'challenges', walkDirection: 'right', hasDynamicContent: true },
   { sectionId: 'sponsors', walkDirection: 'left'},
-  { sectionId: 'contact', walkDirection: 'right' },
 ];
 
 export function ThreeScene() {
@@ -120,7 +119,7 @@ export function ThreeScene() {
     state.camera.position.z = 5;
 
     // Cache DOM elements
-    scenePath.forEach(node => {
+    [...scenePath, {sectionId: 'contact', walkDirection: 'right'}].forEach(node => {
         const el = document.getElementById(node.sectionId);
         if (el) {
             state.elements.set(node.sectionId, el);
@@ -186,8 +185,11 @@ export function ThreeScene() {
 
         let activeNodeIndex = state.currentSectionIndex;
         let minDistance = Infinity;
-        for (let i = 0; i < scenePath.length; i++) {
-            const node = scenePath[i];
+
+        const allSections = [...scenePath, {sectionId: 'contact', walkDirection: 'right'}];
+
+        for (let i = 0; i < allSections.length; i++) {
+            const node = allSections[i];
             const element = state.elements.get(node.sectionId);
             if (!element) continue;
 
@@ -203,18 +205,21 @@ export function ThreeScene() {
         if (state.elements.get(scenePath[0].sectionId)!.getBoundingClientRect().top > 0) {
             activeNodeIndex = 0;
         }
+
+        const isContactSectionActive = activeNodeIndex === scenePath.length;
+        const finalScenePathNodeIndex = isContactSectionActive ? scenePath.length - 1 : activeNodeIndex;
         
-        const activeNode = scenePath[activeNodeIndex];
+        const activeNode = scenePath[finalScenePathNodeIndex];
         const element = state.elements.get(activeNode.sectionId);
         if (!element) return;
         
         const rect = element.getBoundingClientRect();
 
-        if (activeNodeIndex !== state.currentSectionIndex) {
+        if (finalScenePathNodeIndex !== state.currentSectionIndex) {
             state.isFalling = true;
             state.velocityY = 0;
             state.previousWallY = state.currentWallY;
-            state.currentSectionIndex = activeNodeIndex;
+            state.currentSectionIndex = finalScenePathNodeIndex;
         }
 
         const baseRotation = activeNode.walkDirection === 'left' ? -Math.PI / 2 : Math.PI / 2;
@@ -238,13 +243,13 @@ export function ThreeScene() {
             ? endX - ((endX - startX) * clampedProgress)
             : startX + ((endX - startX) * clampedProgress);
 
-        if (activeNodeIndex === 0 && window.scrollY === 0) {
+        if (finalScenePathNodeIndex === 0 && window.scrollY === 0) {
             targetX = startX;
         }
-        if (activeNode.sectionId === 'sponsors' && scrollDirection === 'down' && clampedProgress > 0.9) {
-          targetX = endX;
+        
+        if (isContactSectionActive) {
+            targetX = endX;
         }
-
 
         state.currentTarget.x = targetX;
         updateMarioAndBlockPositions();
@@ -284,10 +289,8 @@ export function ThreeScene() {
       }
 
       if (state.mario) {
-        state.mario.visible = activeNode?.sectionId !== 'contact';
-
         const atEndOfSponsors = activeNode.sectionId === 'sponsors' && Math.abs(state.mario.position.x - state.currentTarget.x) < 0.1;
-        if (!atEndOfSponsors) {
+        if (!atEndOfSponsors || state.lastAction === 'walk') {
             state.mario.position.x += (state.currentTarget.x - state.mario.position.x) * 0.05;
         }
 
@@ -372,5 +375,7 @@ export function ThreeScene() {
 
   return <div ref={mountRef} className="fixed top-0 left-0 w-full h-full z-30 pointer-events-none" />;
 }
+
+    
 
     
