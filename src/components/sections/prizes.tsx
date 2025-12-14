@@ -1,7 +1,31 @@
-
 import { BrickBlock } from "@/components/ui/brick-block";
 import { ResponsiveBrickFloor } from "@/components/ui/responsive-brick-floor";
-import Image from "next/image";
+import { TrophyIcon } from "../icons/trophy";
+import { Medal, Award } from "lucide-react";
+
+const prizes = [
+    {
+        rank: "1st Place",
+        amount: "₹50,000",
+        icon: TrophyIcon,
+        color: "text-yellow-400",
+        size: "large",
+    },
+    {
+        rank: "2nd Place",
+        amount: "₹30,000",
+        icon: Medal,
+        color: "text-slate-300",
+        size: "medium",
+    },
+    {
+        rank: "3rd Place",
+        amount: "₹20,000",
+        icon: Award,
+        color: "text-amber-600",
+        size: "medium",
+    },
+]
 
 export function PrizesSection() {
   return (
@@ -15,14 +39,23 @@ export function PrizesSection() {
             </p>
           </div>
         </div>
-        <div className="mx-auto flex justify-center py-12">
-            <BrickBlock id="prize-brick-main" className="text-center w-full max-w-md transition-transform duration-200 hover:-translate-y-2">
-                <div className="relative mx-auto mb-6 h-32 w-32 animate-spin-y" style={{ animationDuration: '4s' }}>
-                    <Image src="/coin icon.png" alt="Coin" layout="fill" objectFit="contain" />
-                </div>
-                <h3 className="font-headline text-3xl font-semibold leading-none tracking-tight text-yellow-300">Overall Prize Pool</h3>
-                <p className="text-2xl text-white mt-4 font-bold">₹1,00,000</p>
-            </BrickBlock>
+        <div className="mx-auto grid max-w-5xl items-center justify-center gap-8 py-12 lg:grid-cols-3 lg:gap-12">
+            {prizes.map((prize) => (
+                <BrickBlock 
+                    key={prize.rank}
+                    id={`prize-brick-${prize.rank.toLowerCase().replace(' ', '-')}`} 
+                    className="text-center w-full max-w-sm transition-transform duration-200 hover:-translate-y-2"
+                >
+                    <div className="relative mx-auto mb-6 flex items-center justify-center" style={{ height: prize.size === 'large' ? '128px' : '96px' }}>
+                        <prize.icon className={`h-24 w-24 ${prize.color} ${prize.size === 'large' ? 'h-32 w-32' : 'h-24 w-24'}`} />
+                    </div>
+                    <h3 className={`font-headline text-3xl font-semibold leading-none tracking-tight ${prize.color}`}>{prize.rank}</h3>
+                    <p className="text-2xl text-white mt-4 font-bold">{prize.amount}</p>
+                </BrickBlock>
+            ))}
+        </div>
+        <div className="text-center">
+            <p className="font-headline text-2xl font-semibold leading-none tracking-tight text-yellow-300">Overall Prize Pool: ₹1,00,000</p>
         </div>
       </div>
       <ResponsiveBrickFloor />
