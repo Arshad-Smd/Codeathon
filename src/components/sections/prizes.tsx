@@ -43,7 +43,7 @@ export function PrizesSection() {
 
   return (
     <section id="prizes" className="relative w-full bg-transparent py-12 md:py-24 lg:py-32 z-10 min-h-[50vh] flex items-center justify-center">
-      <div className="container px-4 md:px-6 text-center mb-16">
+      <div className="container px-4 md:px-6 mb-16">
         {!isRevealed && !isMobile ? (
           <div className="flex flex-col items-center justify-center space-y-4">
             <div className="space-y-2 mb-8">

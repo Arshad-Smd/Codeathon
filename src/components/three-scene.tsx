@@ -234,10 +234,11 @@ export function ThreeScene() {
         let sectionProgress = currentScrollInSection / totalScrollForSection;
         const clampedProgress = Math.max(0, Math.min(1, sectionProgress));
         
+        const isMobile = window.innerWidth < 768;
         const leftEdge = screenToWorld(0, 0);
         const rightEdge = screenToWorld(window.innerWidth, 0);
-        const startX = leftEdge.x + 1;
-        const endX = rightEdge.x - 1;
+        const startX = isMobile ? leftEdge.x + 1 : leftEdge.x + 1;
+        const endX = isMobile ? rightEdge.x - 1 : rightEdge.x - 1;
         
         let targetX = activeNode.walkDirection === 'left' 
             ? endX - ((endX - startX) * clampedProgress)
@@ -291,7 +292,7 @@ export function ThreeScene() {
       if (state.mario) {
         const atEndOfSponsors = activeNode.sectionId === 'sponsors' && Math.abs(state.mario.position.x - state.currentTarget.x) < 0.1;
         if (!atEndOfSponsors || state.lastAction === 'walk') {
-            state.mario.position.x += (state.currentTarget.x - state.mario.position.x) * 0.05;
+            state.mario.position.x += (state.currentTarget.x - state.mario.position.x) * 0.06;
         }
 
         state.mario.rotation.y += (state.targetRotationY - state.mario.rotation.y) * 0.08;
