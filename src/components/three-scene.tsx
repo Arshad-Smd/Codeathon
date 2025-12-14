@@ -367,7 +367,7 @@ export function ThreeScene() {
       }
       state.renderer?.dispose();
     };
-  }, [isMobile]);
+  }, []);
 
   return <div ref={mountRef} className="fixed top-0 left-0 w-full h-full z-30 pointer-events-none" />;
 }
