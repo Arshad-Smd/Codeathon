@@ -279,6 +279,7 @@ export function ThreeScene() {
       }
 
       if (state.mario) {
+        state.mario.visible = activeNode?.sectionId !== 'contact';
         state.mario.position.x += (state.currentTarget.x - state.mario.position.x) * 0.05;
         state.mario.rotation.y += (state.targetRotationY - state.mario.rotation.y) * 0.08;
 
