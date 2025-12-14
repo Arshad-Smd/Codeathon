@@ -42,7 +42,9 @@ export default function Home() {
     <div className="flex flex-col min-h-screen overflow-x-hidden">
       <Header />
       <ThreeScene />
-      <ThreeSceneBackground />
+      <div className="relative z-0">
+        <ThreeSceneBackground />
+      </div>
       <main className="flex-1 relative z-10">
         <HeroSection />
         <AboutSection />
