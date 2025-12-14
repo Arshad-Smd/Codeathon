@@ -128,7 +128,7 @@ export function ThreeScene() {
     // Load Question Block Model
     loader.load('/questionblock.glb', (gltf) => {
         state.questionBlock = gltf.scene;
-        state.questionBlock.scale.set(0.5, 0.5, 0.5);
+        state.questionBlock.scale.set(0.001, 0.001, 0.001);
         state.scene.add(state.questionBlock);
     });
 
