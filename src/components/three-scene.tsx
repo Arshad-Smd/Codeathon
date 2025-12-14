@@ -118,6 +118,7 @@ export function ThreeScene() {
         state.questionBlock = gltf.scene;
         state.questionBlock.scale.set(0.5, 0.5, 0.5);
         state.questionBlock.position.set(0, 0, -1); // Initially offscreen
+        state.questionBlock.visible = false;
         state.scene.add(state.questionBlock);
     });
 
@@ -327,3 +328,5 @@ export function ThreeScene() {
 
   return <div ref={mountRef} className="fixed top-0 left-0 w-full h-full z-30 pointer-events-none" />;
 }
+
+    
