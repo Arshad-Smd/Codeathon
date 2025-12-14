@@ -4,6 +4,7 @@
 import { useEffect, useRef, useMemo } from 'react';
 import * as drei from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface ScenePathNode {
   sectionId: string;
@@ -23,6 +24,7 @@ const scenePath: ScenePathNode[] = [
 export function ThreeScene() {
   const mountRef = useRef<HTMLDivElement>(null);
   const animationFrameId = useRef<number>();
+  const isMobile = useIsMobile();
 
   const state = useMemo(() => ({
     camera: new drei.PerspectiveCamera(75, 1, 0.1, 1000),
@@ -330,6 +332,7 @@ export function ThreeScene() {
                   state.questionBlock.position.y = worldPos.y;
                   state.questionBlock.position.z = 0;
                   state.questionBlock.rotation.y += 0.01;
+                  state.questionBlock.visible = true;
               } else {
                   state.questionBlock.visible = false;
               }
@@ -363,7 +366,7 @@ export function ThreeScene() {
       }
       state.renderer?.dispose();
     };
-  }, [state]);
+  }, [state, isMobile]);
 
   return <div ref={mountRef} className="fixed top-0 left-0 w-full h-full z-30 pointer-events-none" />;
 }
