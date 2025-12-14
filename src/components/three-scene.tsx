@@ -113,15 +113,6 @@ export function ThreeScene() {
         setTimeout(() => handleScroll(), 100);
     });
 
-    // Load Question Block Model
-    loader.load('/question_block.glb', (gltf) => {
-        state.questionBlock = gltf.scene;
-        state.questionBlock.scale.set(0.5, 0.5, 0.5);
-        state.questionBlock.position.set(0, 0, -1); // Initially offscreen
-        state.questionBlock.visible = false;
-        state.scene.add(state.questionBlock);
-    });
-
     const screenToWorld = (x: number, y: number): drei.Vector3 => {
         const vec = new drei.Vector3( (x / window.innerWidth) * 2 - 1, -(y / window.innerHeight) * 2 + 1, 0.5 );
         vec.unproject(state.camera);
@@ -129,6 +120,18 @@ export function ThreeScene() {
         const distance = -state.camera.position.z / vec.z;
         return state.camera.position.clone().add(vec.multiplyScalar(distance));
     }
+
+    // Load Question Block Model
+    loader.load('/question_block.glb', (gltf) => {
+        state.questionBlock = gltf.scene;
+        state.questionBlock.scale.set(0.5, 0.5, 0.5);
+        state.questionBlock.position.set(0, 0, -1); // Initially offscreen
+        state.questionBlock.visible = false;
+        state.scene.add(state.questionBlock);
+        
+        // Immediately try to position the block
+        handleScroll();
+    });
 
     const switchAction = (newActionName: 'walk' | 'idle' | 'jump') => {
         if (state.lastAction === newActionName) return;
@@ -235,8 +238,8 @@ export function ThreeScene() {
                 state.questionBlock.position.set(worldPos.x, worldPos.y, 0);
                 state.questionBlock.visible = true;
             }
-        } else if (state.questionBlock && activeNode.sectionId !== 'prizes') {
-             state.questionBlock.visible = false;
+        } else if (state.questionBlock) {
+             state.questionBlock.visible = state.isPrizeRevealed ? false : activeNode.sectionId === 'prizes';
         }
     };
     
