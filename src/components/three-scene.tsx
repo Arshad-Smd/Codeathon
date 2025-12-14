@@ -119,7 +119,7 @@ export function ThreeScene() {
     state.camera.position.z = 5;
 
     // Cache DOM elements
-    [...scenePath, {sectionId: 'contact', walkDirection: 'right'}].forEach(node => {
+    [...scenePath, {sectionId: 'contact', walkDirection: 'left'}].forEach(node => {
         const el = document.getElementById(node.sectionId);
         if (el) {
             state.elements.set(node.sectionId, el);
@@ -186,7 +186,7 @@ export function ThreeScene() {
         let activeNodeIndex = state.currentSectionIndex;
         let minDistance = Infinity;
 
-        const allSections = [...scenePath, {sectionId: 'contact', walkDirection: 'right'}];
+        const allSections = [...scenePath, {sectionId: 'contact', walkDirection: 'left'}];
 
         for (let i = 0; i < allSections.length; i++) {
             const node = allSections[i];
@@ -248,7 +248,7 @@ export function ThreeScene() {
         }
         
         if (isContactSectionActive) {
-            targetX = endX;
+            targetX = startX;
         }
 
         state.currentTarget.x = targetX;
