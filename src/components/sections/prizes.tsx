@@ -12,16 +12,8 @@ export function PrizesSection() {
   const [isRevealed, setIsRevealed] = useState(false);
 
   useEffect(() => {
-    // On initial mount, if isMobile is determined, set state.
-    if (isMobile) {
-      setIsRevealed(true);
-    }
-  }, [isMobile]);
-
-
-  useEffect(() => {
     // If it's already revealed on mobile, no need to add listener
-    if (isMobile) return;
+    if (isMobile && isRevealed) return;
 
     const handlePrizeReveal = () => {
       setIsRevealed(true);
@@ -38,23 +30,23 @@ export function PrizesSection() {
       window.removeEventListener("prize-reveal", handlePrizeReveal);
       (window as any).__prizeRevealListenerSet = false;
     };
-  }, [isMobile]);
+  }, [isMobile, isRevealed]);
 
 
   return (
     <section id="prizes" className="relative w-full bg-transparent py-12 md:py-24 lg:py-32 z-10 min-h-[50vh] flex items-center justify-center">
       <div className="container px-4 md:px-6 mb-16">
-        {!isRevealed && !isMobile ? (
-          <div className="flex flex-col items-center justify-center space-y-4">
+        {!isRevealed ? (
+          <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <div className="space-y-2 mb-8">
               <h2 className="font-headline text-3xl font-bold tracking-tighter text-accent sm:text-5xl">The Grand Prize</h2>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 items-center gap-4 w-full max-w-4xl">
-              <p className="text-muted-foreground text-right md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+              <p className="text-muted-foreground md:text-right md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
                 A mysterious prize awaits! Have Mario jump and hit the question block...
               </p>
               <div id="question-block-placeholder" className="w-32 h-32 mx-auto mb-8" />
-              <p className="text-muted-foreground text-left md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+              <p className="text-muted-foreground md:text-left md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
                 ...to see what's inside!
               </p>
             </div>
@@ -85,4 +77,3 @@ export function PrizesSection() {
     </section>
   );
 }
-
