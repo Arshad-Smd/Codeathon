@@ -56,6 +56,7 @@ export function ThreeScene() {
     timelineBricks: [] as Element[],
     isPrizeRevealed: false,
     questionBlockPlaceholder: null as HTMLElement | null,
+    initialQuestionBlockY: 0,
   }), []);
 
   const screenToWorld = (x: number, y: number): drei.Vector3 => {
@@ -262,13 +263,16 @@ export function ThreeScene() {
             state.mario.position.y += state.velocityY;
 
             // Collision with question block
-            if (state.questionBlock && state.questionBlock.visible && !state.isPrizeRevealed && state.mario) {
+            if (state.questionBlock && state.questionBlock.visible && !state.isPrizeRevealed) {
                 const distanceX = Math.abs(state.mario.position.x - state.questionBlock.position.x);
                 const distanceY = Math.abs(state.mario.position.y - state.questionBlock.position.y);
 
-                if (distanceX < 0.5 && distanceY < 0.5 && state.velocityY > 0) {
+                if (distanceX < 1 && distanceY < 1 && state.velocityY > 0) {
                      state.isPrizeRevealed = true;
-                     window.dispatchEvent(new CustomEvent("prize-reveal"));
+                     state.questionBlock.position.y += 0.1; // Bump animation
+                     setTimeout(() => {
+                        window.dispatchEvent(new CustomEvent("prize-reveal"));
+                     }, 100);
                 }
             }
             
@@ -289,7 +293,14 @@ export function ThreeScene() {
               const rect = state.questionBlockPlaceholder.getBoundingClientRect();
               if (rect.top < window.innerHeight && rect.bottom > 0) {
                   const worldPos = screenToWorld(rect.left + rect.width / 2, rect.top + rect.height / 2);
-                  state.questionBlock.position.set(worldPos.x, worldPos.y, 0);
+                  if (state.initialQuestionBlockY === 0) {
+                      state.initialQuestionBlockY = worldPos.y;
+                  }
+                  state.questionBlock.position.x = worldPos.x;
+                  if (state.questionBlock.position.y < state.initialQuestionBlockY) {
+                    state.questionBlock.position.y += (state.initialQuestionBlockY - state.questionBlock.position.y) * 0.1;
+                  }
+                  state.questionBlock.position.z = 0;
                   state.questionBlock.visible = true;
                   state.questionBlock.rotation.y += 0.01;
               } else {
@@ -329,5 +340,7 @@ export function ThreeScene() {
 
   return <div ref={mountRef} className="fixed top-0 left-0 w-full h-full z-30 pointer-events-none" />;
 }
+
+    
 
     
