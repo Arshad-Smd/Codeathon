@@ -30,7 +30,7 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
       </head>
       <body className={cn(
-        "min-h-screen bg-background font-body antialiased overflow-x-hidden",
+        "min-h-screen bg-background font-body antialiased overflow-x-hidden relative isolate",
       )}>
         {children}
         <Toaster />
