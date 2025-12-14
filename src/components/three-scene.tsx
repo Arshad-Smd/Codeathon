@@ -56,7 +56,6 @@ export function ThreeScene() {
     timelineBricks: [] as Element[],
     isPrizeRevealed: false,
     questionBlockPlaceholder: null as HTMLElement | null,
-    initialQuestionBlockY: 0,
   }), []);
 
   const screenToWorld = (x: number, y: number): drei.Vector3 => {
@@ -293,13 +292,8 @@ export function ThreeScene() {
               const rect = state.questionBlockPlaceholder.getBoundingClientRect();
               if (rect.top < window.innerHeight && rect.bottom > 0) {
                   const worldPos = screenToWorld(rect.left + rect.width / 2, rect.top + rect.height / 2);
-                  if (state.initialQuestionBlockY === 0) {
-                      state.initialQuestionBlockY = worldPos.y;
-                  }
                   state.questionBlock.position.x = worldPos.x;
-                  if (state.questionBlock.position.y < state.initialQuestionBlockY) {
-                    state.questionBlock.position.y += (state.initialQuestionBlockY - state.questionBlock.position.y) * 0.1;
-                  }
+                  state.questionBlock.position.y = worldPos.y;
                   state.questionBlock.position.z = 0;
                   state.questionBlock.visible = true;
                   state.questionBlock.rotation.y += 0.01;
@@ -340,7 +334,3 @@ export function ThreeScene() {
 
   return <div ref={mountRef} className="fixed top-0 left-0 w-full h-full z-30 pointer-events-none" />;
 }
-
-    
-
-    
