@@ -67,3 +67,16 @@
     @apply bg-background text-foreground;
   }
 }
+
+@keyframes spin-y {
+  from {
+    transform: rotateY(0deg);
+  }
+  to {
+    transform: rotateY(360deg);
+  }
+}
+
+.animate-spin-y {
+  animation: spin-y 3s linear infinite;
+}
