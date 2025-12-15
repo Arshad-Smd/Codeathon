@@ -155,6 +155,14 @@ export function ThreeScene() {
         state.mario = gltf.scene;
         state.mario.scale.set(0.04, 0.04, 0.04);
         state.mario.rotation.y = Math.PI / 2; // Initial direction
+        
+        // Set initial position to avoid the "snap"
+        const leftEdge = screenToWorld(0, 0);
+        const buffer = 0.2;
+        const startX = leftEdge.x + buffer;
+        state.mario.position.x = startX;
+        state.currentTarget.x = startX;
+
         state.scene.add(state.mario);
 
         state.mixer = new drei.AnimationMixer(state.mario);
@@ -371,3 +379,5 @@ export function ThreeScene() {
 
   return <div ref={mountRef} className="fixed top-0 left-0 w-full h-full z-30 pointer-events-none" />;
 }
+
+    
