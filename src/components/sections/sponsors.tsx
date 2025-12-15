@@ -13,9 +13,12 @@ const knowledgePartners = [
   { name: "Trikaya", path: "/trikiya.jpeg", url: "https://www.trikaya.io/" },
 ];
 
+const mediaPartners = [
+  { name: "Eventopia", path: "/eventopia-goodies.jpg", url: "https://eventopia.in/" },
+];
+
 const silverSponsors = [
   { name: "Art of Problem Solving", path: "/Art of problem solving-goodies.jpg", url: "https://artofproblemsolving.com/" },
-  { name: "Eventopia", path: "/eventopia-goodies.jpg", url: "https://eventopia.in/" },
   { name: "Interview Buddy", path: "/interviewbuddy-goodies.jpg", url: "https://interviewbuddy.net/" },
   { name: "Navan", path: "/navan-goodies.jpg", url: "https://navan.ai/" },
   { name: "Balsamiq", path: "/balsamiq-goodies.jpg", url: "https://balsamiq.com/" },
@@ -69,6 +72,18 @@ export function SponsorsSection() {
           </h3>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 max-w-4xl mx-auto">
             {knowledgePartners.map((sponsor) => (
+              <SponsorLogo key={sponsor.name} {...sponsor} />
+            ))}
+          </div>
+        </div>
+
+        {/* Media Partner */}
+        <div className="mb-16">
+          <h3 className="mb-8 text-center font-headline text-2xl font-semibold text-accent/80 sm:text-3xl">
+            Media Partner
+          </h3>
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-1 lg:grid-cols-1 max-w-md mx-auto">
+            {mediaPartners.map((sponsor) => (
               <SponsorLogo key={sponsor.name} {...sponsor} />
             ))}
           </div>
