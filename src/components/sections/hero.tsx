@@ -1,13 +1,16 @@
 
 import { Button } from '@/components/ui/button';
-import { ArrowDown } from 'lucide-react';
-import Link from 'next/link';
 import { ResponsiveBrickFloor } from '../ui/responsive-brick-floor';
+import { ThreeSceneBackground } from '../three-scene-background';
+import Link from 'next/link';
 
 export function HeroSection() {
   return (
-    <section id="hero" className="relative flex h-screen w-full flex-col items-center justify-center text-center">
-      <div className="container z-10 px-4 sm:px-6">
+    <section id="hero" className="relative flex h-screen w-full flex-col items-center justify-center text-center overflow-hidden">
+      <div className="absolute inset-0 z-0">
+        <ThreeSceneBackground />
+      </div>
+      <div className="container relative z-10 px-4 sm:px-6">
         <h1 className="font-headline text-2xl font-bold tracking-tighter text-primary-foreground drop-shadow-lg xxs:text-3xl sm:text-4xl md:text-6xl lg:text-7xl/none">
           Codeathon 2.0
         </h1>
@@ -24,11 +27,6 @@ export function HeroSection() {
         </div>
       </div>
       <ResponsiveBrickFloor />
-      <div className="absolute bottom-16 z-20">
-        {/* <Link href="#about" aria-label="Scroll down">
-          <ArrowDown className="h-8 w-8 animate-bounce text-primary-foreground/70" />
-        </Link> */}
-      </div>
     </section>
   );
 }
