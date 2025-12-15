@@ -7,15 +7,19 @@ const goldSponsors = [
   { name: "Orchestro AI", path: "/orchestro AI - premium.jpg", url: "https://www.orchestro.ai/" },
 ];
 
-const silverSponsors = [
+const knowledgePartners = [
   { name: "Isaii AI", path: "/isaii AI - premium.jpg", url: "https://www.isaii.in/" },
+  { name: "Praya Labs", path: "/Praya_labs.jpg", url: "https://www.prayalabs.com/" },
+  { name: "Trikaya", path: "/trikiya.jpeg", url: "https://www.trikaya.io/" },
+];
+
+const silverSponsors = [
   { name: "Art of Problem Solving", path: "/Art of problem solving-goodies.jpg", url: "https://artofproblemsolving.com/" },
   { name: "Eventopia", path: "/eventopia-goodies.jpg", url: "https://eventopia.in/" },
   { name: "Interview Buddy", path: "/interviewbuddy-goodies.jpg", url: "https://interviewbuddy.net/" },
   { name: "Navan", path: "/navan-goodies.jpg", url: "https://navan.ai/" },
   { name: "Balsamiq", path: "/balsamiq-goodies.jpg", url: "https://balsamiq.com/" },
   { name: "CodeCrafters.io", path: "/CodeCrafters.io full logo (Dark text).png", url: "https://codecrafters.io/" },
-  { name: "Trikaya", path: "/trikiya.jpeg", url: "https://www.trikaya.io/" },
 ];
 
 const SponsorLogo = ({ name, path, url }: { name: string; path: string; url: string }) => (
@@ -52,6 +56,18 @@ export function SponsorsSection() {
           </h3>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-1 lg:grid-cols-1 max-w-md mx-auto">
             {goldSponsors.map((sponsor) => (
+              <SponsorLogo key={sponsor.name} {...sponsor} />
+            ))}
+          </div>
+        </div>
+
+        {/* Knowledge Partners */}
+        <div className="mb-16">
+          <h3 className="mb-8 text-center font-headline text-2xl font-semibold text-accent/80 sm:text-3xl">
+            Knowledge Partners
+          </h3>
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 max-w-4xl mx-auto">
+            {knowledgePartners.map((sponsor) => (
               <SponsorLogo key={sponsor.name} {...sponsor} />
             ))}
           </div>
