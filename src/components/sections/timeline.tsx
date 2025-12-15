@@ -6,19 +6,19 @@ const timelineEvents = [
   {
     icon: ClipboardEdit,
     title: "Registration Opens",
-    date: "Dec 6, 2026",
+    date: "Dec 16, 2026",
     description: "Sign up to secure your spot.",
   },
   {
     icon: UploadCloud,
     title: "Submission Deadline",
-    date: "Jan 20, 2026",
+    date: "Jan 16, 2026",
     description: "Submit your innovative Ideas to solve the given problems.",
   },
   {
     icon: ClipboardCheck,
     title: "First round Evaluation",
-    date: "Jan 20-27, 2026",
+    date: "Jan 20-25, 2026",
     description: "Our judges will review submissions.",
   },
   {

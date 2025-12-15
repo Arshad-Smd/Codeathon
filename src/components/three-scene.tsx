@@ -60,7 +60,7 @@ export function ThreeScene() {
 
   const screenToWorld = (x: number, y: number): drei.Vector3 => {
     if (!state.renderer) return new drei.Vector3();
-    const vec = new drei.Vector3( (x / window.innerWidth) * 2 - 1, -(y / window.innerHeight) * 2 + 1, 0.5 );
+    const vec = new drei.Vector3( (x / window.innerWidth) * 2 -1, -(y / window.innerHeight) * 2 + 1, 0.5 );
     vec.unproject(state.camera);
     vec.sub(state.camera.position).normalize();
     const distance = -state.camera.position.z / vec.z;
