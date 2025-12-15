@@ -45,7 +45,7 @@ export function PrizesSection() {
               <p className="text-muted-foreground md:text-right md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
                 A mysterious prize awaits! Have Mario jump and hit the question block...
               </p>
-              <div id="question-block-placeholder" className="w-32 h-32 mx-auto mb-8" />
+              <div id="question-block-placeholder" className="w-32 h-32 mx-auto mb-8 mt-4" />
               <p className="text-muted-foreground md:text-left md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
                 ...to see what's inside!
               </p>
