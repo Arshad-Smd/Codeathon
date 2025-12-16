@@ -12,26 +12,8 @@ import { ContactSection } from "@/components/sections/contact";
 import { ThreeScene } from "@/components/three-scene";
 import { PrizesSection } from "@/components/sections/prizes";
 import { Fab } from "@/components/ui/fab";
-import { useEffect, useState } from "react";
 
 export default function Home() {
-  const [showFab, setShowFab] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const prizesSection = document.getElementById('prizes');
-      if (prizesSection) {
-        const rect = prizesSection.getBoundingClientRect();
-        // Show FAB when the prizes section is in view
-        setShowFab(rect.top < window.innerHeight && rect.bottom >= 0);
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    handleScroll(); // Initial check
-
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   const handleFabClick = () => {
     window.dispatchEvent(new CustomEvent('mario-jump'));
@@ -51,7 +33,7 @@ export default function Home() {
         <ContactSection />
       </main>
       <Footer />
-      {showFab && <Fab onClick={handleFabClick} />}
+      <Fab onClick={handleFabClick} />
     </div>
   );
 }
