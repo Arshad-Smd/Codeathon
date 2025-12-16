@@ -8,11 +8,11 @@ export function Fab({ onClick }: { onClick: () => void }) {
   return (
     <Button
       onClick={onClick}
-      className="fixed bottom-8 right-8 z-40 h-16 w-16 rounded-full shadow-lg"
+      className="fixed bottom-8 right-8 z-40 h-14 w-14 rounded-full shadow-lg"
       size="icon"
       aria-label="Jump"
     >
-      <ArrowUp className="h-8 w-8" />
+      <ArrowUp className="h-7 w-7" />
     </Button>
   );
 }
