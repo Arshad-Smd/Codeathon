@@ -6,12 +6,28 @@ import { Button } from "@/components/ui/button";
 import {
   Sheet,
   SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { useState } from "react";
 
 export function Header() {
   const [isOpen, setIsOpen] = useState(false);
+
+  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    setIsOpen(false);
+
+    // Use a timeout to allow the sheet to close before scrolling
+    setTimeout(() => {
+      const targetElement = document.querySelector(href);
+      if (targetElement) {
+        targetElement.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 0);
+  };
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -67,6 +83,12 @@ export function Header() {
               </Button>
             </SheetTrigger>
             <SheetContent side="left" className="pr-0">
+              <SheetHeader>
+                <SheetTitle className="sr-only">Menu</SheetTitle>
+                <SheetDescription className="sr-only">
+                  Navigate to different sections of the page.
+                </SheetDescription>
+              </SheetHeader>
               <Link
                 href="/"
                 className="mb-8 flex items-center"
@@ -76,10 +98,10 @@ export function Header() {
                 <span className="font-bold font-headline">Codeathon</span>
               </Link>
               <div className="flex flex-col space-y-3">
-                 <Link href="#timeline" onClick={() => setIsOpen(false)}>Timeline</Link>
-                 <Link href="#challenges" onClick={() => setIsOpen(false)}>Challenges</Link>
-                 <Link href="#sponsors" onClick={() => setIsOpen(false)}>Sponsors</Link>
-                 <Link href="#contact" onClick={() => setIsOpen(false)}>Contact</Link>
+                 <a href="#timeline" onClick={(e) => handleLinkClick(e, '#timeline')}>Timeline</a>
+                 <a href="#challenges" onClick={(e) => handleLinkClick(e, '#challenges')}>Challenges</a>
+                 <a href="#sponsors" onClick={(e) => handleLinkClick(e, '#sponsors')}>Sponsors</a>
+                 <a href="#contact" onClick={(e) => handleLinkClick(e, '#contact')}>Contact</a>
               </div>
             </SheetContent>
           </Sheet>
