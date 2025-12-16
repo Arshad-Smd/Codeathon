@@ -69,7 +69,7 @@ export function SponsorsSection() {
           <h3 className="mb-8 text-center font-headline text-2xl font-semibold text-accent/80 sm:text-3xl">
             Knowledge Partners
           </h3>
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-2xl mx-auto">
             {knowledgePartners.map((sponsor) => (
               <SponsorLogo key={sponsor.name} {...sponsor} />
             ))}
