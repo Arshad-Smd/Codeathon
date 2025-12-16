@@ -5,7 +5,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { BrainCircuit, HeartPulse, ExternalLink, ShieldCheck, Sprout, BookOpen } from "lucide-react";
+import { BrainCircuit, ExternalLink, BookOpen, Truck } from "lucide-react";
 import { ResponsiveBrickFloor } from "../ui/responsive-brick-floor";
 import { Button } from "../ui/button";
 import Link from "next/link";
@@ -19,18 +19,11 @@ const themes = [
         docUrl: "https://docs.google.com/document/d/1H63UpDAI_l38Ujoy0XpQbrHEyyqJQ58FyVcgBokTPQo/edit?usp=sharing",
     },
     {
-        value: "green-tech",
-        title: "Green Tech",
-        icon: Sprout,
-        description: "Create sustainable solutions to environmental challenges. Focus on renewable energy, waste reduction, conservation, or sustainable agriculture to build a greener future.",
+        value: "supply-chain",
+        title: "Supply Chain",
+        icon: Truck,
+        description: "Innovate in logistics and supply chain management. Build solutions for inventory tracking, route optimization, demand forecasting, or last-mile delivery to improve efficiency and resilience.",
         docUrl: "https://docs.google.com/document/d/1Q_WvUlTprpzeet4P4AHSWCxWzLnw22q9CoUoDoOrh0Q/edit?usp=sharing",
-    },
-    {
-        value: "cybersecurity",
-        title: "Cybersecurity",
-        icon: ShieldCheck,
-        description: "Build tools and systems to protect digital assets and privacy. Tackle challenges in threat detection, data encryption, secure authentication, or network security.",
-        docUrl: "https://docs.google.com/document/d/1tdBj4ia9lDHXrQZjt_xNImoMn5qEfgw6ho7JCUH64gU/edit?usp=sharing",
     },
     {
         value: "edtech",
@@ -38,13 +31,6 @@ const themes = [
         icon: BookOpen,
         description: "Innovate in education by creating tools for personalized learning, virtual classrooms, or accessible educational content. Empower learners and educators with new technologies.",
         docUrl: "https://docs.google.com/document/d/1RSa54Aoo6f4pr2KYfYRMSoiDSMNHPIUUVaz2lAAQzxE/edit?usp=sharing",
-    },
-    {
-        value: "healthcare",
-        title: "Healthcare",
-        icon: HeartPulse,
-        description: "Improve health outcomes with technology. Your project could be in telemedicine, health monitoring, medical data analysis, or improving access to healthcare services.",
-        docUrl: "https://docs.google.com/document/d/1hhatvLpijIMK-Sr98UHh9QOiMPQrQ97hQWtQgz-96hw/edit?usp=sharing",
     },
 ];
 
