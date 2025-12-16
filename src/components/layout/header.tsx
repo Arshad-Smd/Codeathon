@@ -16,17 +16,12 @@ import { useState } from "react";
 export function Header() {
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+  const handleScrollLink = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
-    setIsOpen(false);
-
-    // Use a timeout to allow the sheet to close before scrolling
-    setTimeout(() => {
-      const targetElement = document.querySelector(href);
-      if (targetElement) {
-        targetElement.scrollIntoView({ behavior: 'smooth' });
-      }
-    }, 0);
+    const targetElement = document.querySelector(href);
+    if (targetElement) {
+      targetElement.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   return (
@@ -40,30 +35,34 @@ export function Header() {
             </span>
           </Link>
           <nav className="hidden items-center space-x-6 text-sm font-medium lg:flex">
-            <Link
+            <a
               href="#timeline"
+              onClick={(e) => handleScrollLink(e, '#timeline')}
               className="transition-colors hover:text-foreground/80 text-foreground/60"
             >
               Timeline
-            </Link>
-            <Link
+            </a>
+            <a
               href="#challenges"
+              onClick={(e) => handleScrollLink(e, '#challenges')}
               className="transition-colors hover:text-foreground/80 text-foreground/60"
             >
               Challenges
-            </Link>
-            <Link
+            </a>
+            <a
               href="#sponsors"
+              onClick={(e) => handleScrollLink(e, '#sponsors')}
               className="transition-colors hover:text-foreground/80 text-foreground/60"
             >
               Sponsors
-            </Link>
-            <Link
+            </a>
+            <a
               href="#contact"
+              onClick={(e) => handleScrollLink(e, '#contact')}
               className="transition-colors hover:text-foreground/80 text-foreground/60"
             >
               Contact
-            </Link>
+            </a>
           </nav>
         </div>
         <div className="flex flex-1 items-center justify-end space-x-2">
@@ -98,10 +97,10 @@ export function Header() {
                 <span className="font-bold font-headline">Codeathon</span>
               </Link>
               <div className="flex flex-col space-y-3">
-                 <a href="#timeline" onClick={(e) => handleLinkClick(e, '#timeline')}>Timeline</a>
-                 <a href="#challenges" onClick={(e) => handleLinkClick(e, '#challenges')}>Challenges</a>
-                 <a href="#sponsors" onClick={(e) => handleLinkClick(e, '#sponsors')}>Sponsors</a>
-                 <a href="#contact" onClick={(e) => handleLinkClick(e, '#contact')}>Contact</a>
+                 <Link href="#timeline" onClick={() => setIsOpen(false)}>Timeline</Link>
+                 <Link href="#challenges" onClick={() => setIsOpen(false)}>Challenges</Link>
+                 <Link href="#sponsors" onClick={() => setIsOpen(false)}>Sponsors</Link>
+                 <Link href="#contact" onClick={() => setIsOpen(false)}>Contact</Link>
               </div>
             </SheetContent>
           </Sheet>
