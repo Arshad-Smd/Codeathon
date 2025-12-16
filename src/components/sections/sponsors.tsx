@@ -10,7 +10,6 @@ const goldSponsors = [
 const knowledgePartners = [
   { name: "Isaii AI", path: "/isaii AI - premium.jpg", url: "https://www.isaii.in/" },
   { name: "Praya Labs", path: "/Praya_labs.jpg", url: "https://www.prayalabs.com/" },
-  { name: "Trikaya", path: "/trikiya.jpeg", url: "https://www.trikaya.io/" },
 ];
 
 const mediaPartners = [
