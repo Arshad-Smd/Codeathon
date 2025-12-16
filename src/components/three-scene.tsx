@@ -209,10 +209,6 @@ export function ThreeScene() {
                 }
             }
         }
-        // Ensure the first section is active when scrolled to the top
-        if (state.elements.get(scenePath[0].sectionId)!.getBoundingClientRect().top >= 0) {
-            activeNodeIndex = 0;
-        }
 
         const activeNode = scenePath[activeNodeIndex];
         const element = state.elements.get(activeNode.sectionId);
@@ -379,5 +375,3 @@ export function ThreeScene() {
 
   return <div ref={mountRef} className="fixed top-0 left-0 w-full h-full z-30 pointer-events-none" />;
 }
-
-    
