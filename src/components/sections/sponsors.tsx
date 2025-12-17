@@ -23,6 +23,8 @@ const silverSponsors = [
   { name: "Balsamiq", path: "/balsamiq-goodies.jpg", url: "https://balsamiq.com/" },
   { name: "CodeCrafters.io", path: "/CodeCrafters.io full logo (Dark text).png", url: "https://codecrafters.io/" },
   { name: "Fueler", path: "/fueler.jpeg", url: "https://fueler.io/" },
+  { name: "Interview Cake", path: "/interviewcake.jpeg", url: "https://www.interviewcake.com/" },
+  { name: "Give My Certificate", path: "/givemycertificate.jpeg", url: "https://givemycertificate.com/" },
 ];
 
 const SponsorLogo = ({ name, path, url }: { name: string; path: string; url: string }) => (
