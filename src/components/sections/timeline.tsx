@@ -12,13 +12,13 @@ const timelineEvents = [
   {
     icon: UploadCloud,
     title: "Submission Deadline",
-    date: "Jan 16, 2026",
+    date: "Jan 10, 2026",
     description: "Submit your innovative Ideas to solve the given problems.",
   },
   {
     icon: ClipboardCheck,
     title: "First round Evaluation",
-    date: "Jan 20-25, 2026",
+    date: "Jan 11-16, 2026",
     description: "Our judges will review submissions.",
   },
   {
