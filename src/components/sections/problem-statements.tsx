@@ -22,7 +22,7 @@ const themes = [
         value: "supply-chain",
         title: "Supply Chain",
         icon: Truck,
-        description: "Innovate in logistics and supply chain management. Build solutions for inventory tracking, route optimization, demand forecasting, or last-mile delivery to improve efficiency and resilience (given by Orchestro AI).",
+        description: "Innovate in real-world supply chain management, with challenges especially given by Orchestro AI. Build solutions for inventory tracking, route optimization, demand forecasting, or last-mile delivery to improve efficiency and resilience.",
         docUrl: "https://docs.google.com/document/d/1Q_WvUlTprpzeet4P4AHSWCxWzLnw22q9CoUoDoOrh0Q/edit?usp=sharing",
     },
     {
