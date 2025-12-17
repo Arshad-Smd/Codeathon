@@ -56,7 +56,7 @@ export function ProblemStatementsSection() {
                     <AccordionContent className="text-base text-muted-foreground">
                         {theme.value === 'supply-chain' ? (
                             <>
-                                Innovate in real-world supply chain management, with challenges especially given by <span className="text-accent font-semibold">Orchestro AI</span>. Build solutions for inventory tracking, route optimization, demand forecasting, or last-mile delivery to improve efficiency and resilience.
+                                Innovate in real-world supply chain management, with challenges especially given by <span className="text-yellow-300 font-semibold">Orchestro AI</span>. Build solutions for inventory tracking, route optimization, demand forecasting, or last-mile delivery to improve efficiency and resilience.
                             </>
                         ) : (
                             theme.description
