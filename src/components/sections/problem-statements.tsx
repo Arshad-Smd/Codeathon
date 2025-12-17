@@ -1,4 +1,3 @@
-
 import {
   Accordion,
   AccordionContent,
@@ -55,7 +54,13 @@ export function ProblemStatementsSection() {
                         </div>
                     </AccordionTrigger>
                     <AccordionContent className="text-base text-muted-foreground">
-                        {theme.description}
+                        {theme.value === 'supply-chain' ? (
+                            <>
+                                Innovate in real-world supply chain management, with challenges especially given by <span className="text-accent font-semibold">Orchestro AI</span>. Build solutions for inventory tracking, route optimization, demand forecasting, or last-mile delivery to improve efficiency and resilience.
+                            </>
+                        ) : (
+                            theme.description
+                        )}
                         <div className="mt-4">
                             <Button asChild>
                                 <Link href={theme.docUrl} target="_blank" rel="noopener noreferrer">
