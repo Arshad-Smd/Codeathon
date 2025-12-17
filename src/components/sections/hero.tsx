@@ -19,7 +19,7 @@ export function HeroSection() {
         </p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <Button size="lg" asChild>
-            <Link href="#about">Register Now</Link>
+            <Link href="https://unstop.com/o/0DTdrZh?lb=BoEZPUM8&utm_medium=Share&utm_source=technsec33337&utm_campaign=Online_coding_challenge" target="_blank" rel="noopener noreferrer">Register Now</Link>
           </Button>
           <Button size="lg" variant="secondary" asChild>
             <Link href="#challenges">View Challenges</Link>
