@@ -45,7 +45,7 @@ export function PrizesSection() {
               <p className="text-muted-foreground md:text-right md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
                 A mysterious prize awaits! Have Mario jump and hit the question block...
               </p>
-              <div id="question-block-placeholder" className="w-32 h-32 mx-auto mb-8 mt-4" />
+              <div id="question-block-placeholder" className="w-32 h-32 mx-auto mt-4" />
               <p className="text-muted-foreground md:text-left md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
                 ...to see what's inside!
               </p>
@@ -66,7 +66,10 @@ export function PrizesSection() {
                     Overall Prize Pool
                 </p>
                 <p className="font-headline text-3xl xxs:text-4xl sm:text-5xl font-bold text-white mt-2 drop-shadow-lg">
-                    ₹1,00,000
+                    ₹1,00,000+
+                </p>
+                <p className="text-base text-white mt-4">
+                    *Internship offer for selected persons
                 </p>
                 </div>
             </div>
