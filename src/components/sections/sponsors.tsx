@@ -13,6 +13,7 @@ const knowledgePartners = [
 ];
 
 const mediaPartners = [
+  { name: "Unstop", path: "/unstop.png", url: "https://unstop.com/" },
   { name: "Eventopia", path: "/eventopia-goodies.jpg", url: "https://eventopia.in/" },
 ];
 
@@ -71,19 +72,19 @@ export function SponsorsSection() {
           <h3 className="mb-8 text-center font-headline text-2xl font-semibold text-accent/80 sm:text-3xl">
             Knowledge Partners
           </h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-2xl mx-auto">
+          <div className="mx-auto grid max-w-2xl grid-cols-1 items-center justify-center gap-6 sm:grid-cols-2">
             {knowledgePartners.map((sponsor) => (
               <SponsorLogo key={sponsor.name} {...sponsor} />
             ))}
           </div>
         </div>
 
-        {/* Media Partner */}
+        {/* Media and Platform Partner */}
         <div className="mb-16">
           <h3 className="mb-8 text-center font-headline text-2xl font-semibold text-accent/80 sm:text-3xl">
-            Media Partner
+            Media and Platform Partner
           </h3>
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-1 lg:grid-cols-1 max-w-md mx-auto">
+          <div className="mx-auto grid max-w-2xl grid-cols-1 items-center justify-center gap-6 sm:grid-cols-2">
             {mediaPartners.map((sponsor) => (
               <SponsorLogo key={sponsor.name} {...sponsor} />
             ))}
