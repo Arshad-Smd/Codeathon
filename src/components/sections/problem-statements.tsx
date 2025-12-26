@@ -30,16 +30,16 @@ export function ProblemStatementsSection() {
           </p>
         </div>
         <div className="mx-auto max-w-2xl flex justify-center">
-            <div className="relative bg-mario-brown p-6 md:p-8 border-t-4 border-l-4 border-r-4 border-b-8 border-black/70 shadow-[inset_4px_4px_0px_0px_rgba(255,255,255,0.3),inset_-4px_0px_0px_0px_rgba(0,0,0,0.25)] text-center w-full transition-transform duration-200 hover:-translate-y-2">
-                <div className="flex flex-col items-center justify-center">
-                    <div className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-primary/10">
+            <div className="relative bg-mario-brown p-6 md:p-8 border-t-4 border-l-4 border-r-4 border-b-8 border-black/70 shadow-[inset_4px_4px_0px_0px_rgba(255,255,255,0.3),inset_-4px_0px_0px_0px_rgba(0,0,0,0.25)] w-full transition-transform duration-200 hover:-translate-y-2">
+                <div className="flex flex-col items-center text-center md:items-start md:text-left">
+                    <div className="mx-auto md:mx-0 mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-primary/10">
                         <supplyChainTheme.icon className="h-10 w-10 text-gray-100" />
                     </div>
                     <h3 className="font-headline text-2xl font-semibold leading-none tracking-tight text-yellow-300">{supplyChainTheme.title}</h3>
                     <p className="text-sm text-white mt-4 max-w-prose">
                         {supplyChainTheme.description}
                     </p>
-                    <div className="mt-6">
+                    <div className="mt-6 w-full flex justify-center md:justify-start">
                         <Button asChild>
                             <Link href={supplyChainTheme.docUrl} target="_blank" rel="noopener noreferrer">
                                 View Problem Statement
