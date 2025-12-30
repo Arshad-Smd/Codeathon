@@ -6,7 +6,7 @@ const timelineEvents = [
   {
     icon: ClipboardEdit,
     title: "Registration Opens",
-    date: "Dec 16, 2026",
+    date: "Dec 16, 2025",
     description: "Sign up to secure your spot.",
   },
   {
